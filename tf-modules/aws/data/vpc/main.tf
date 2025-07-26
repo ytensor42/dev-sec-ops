@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-west-2"
-}
-
 variable "vpc_name" {
   type = string
   default = "default"

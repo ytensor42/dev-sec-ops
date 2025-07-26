@@ -22,9 +22,9 @@
 ```
 terraform {
   backend "s3" {
-    bucket = "<bucket-name>"
+    bucket = "<s3_bucket>"
     key = "terraform-state/<project>/<task>/tfstate"
-    region = "<aws-region>"
+    region = "<aws_region>"
   }
 }
 ```

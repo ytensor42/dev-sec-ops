@@ -1,5 +1,5 @@
 variable "root_domain" {
-  default = "ansolute.com"
+  default = "aws.ansolute.com"
 }
 
 variable "sub_domain" {

@@ -161,8 +161,10 @@ cython_debug/
 
 # Development
 #scripts/
+bin/
 dev/
 **/dev/
+temp/
 test/
 **/test/
 #**/data/
