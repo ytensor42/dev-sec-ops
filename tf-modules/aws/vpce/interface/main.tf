@@ -13,7 +13,7 @@ variable "vpc_name" {
   default = "default"
 }
 
-variable "network_type" {
+variable "network_name" {
   type = string
   default = "private"
 }
@@ -31,7 +31,7 @@ data "aws_subnets" "network" {
   }
   filter {
     name = "tag:Name"    
-    values = ["${var.vpc_name}-subnet-${var.network_type}-*"]
+    values = ["${var.vpc_name}-subnet-${var.network_name}-*"]
   }
 }
 

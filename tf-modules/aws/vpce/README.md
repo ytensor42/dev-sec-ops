@@ -17,13 +17,15 @@
   |`region`|str|`us-west-2`|region|
   |`endpoint`|str|`s3`|endpoint|
   |`vpc_name`|str|`dev`|vpc name|
+  |`network_name`|str|`private`|`private` or `public`|
 
 
 ### Local constants
 
   |name|type|value|comments|
   |----|----|-----|--------|
-  |||||
+  |`vpce_route_pairs`|list|`[.<dynamic>.]`|routes|
+  |`endpoints.s3`|list|`["s3"]`|s3 endpoint|
 
 
 ### Outputs
@@ -50,7 +52,7 @@
   |`region`|str|`us-west-2`|region|
   |`endpoint`|str|`ssm`|endpoint|
   |`vpc_name`|str|`dev`|vpc name|
-  |`network_type`|str|`private`|`private` or `public`|
+  |`network_name`|str|`private`|`private` or `public`|
 
 
 ### Local constants
@@ -58,8 +60,9 @@
   |name|type|value|comments|
   |----|----|-----|--------|
   |`network_cidrs`|list|`[.<dynamic>.]`|network CIDRs|
-  |`endpoint.ssm`|list|`["ssm", "ssmmessages", "ec2messages"]`|ssm endpoints|
-  |`endpoint.ecr`|list|`[ "ecr.api", "ecr.dkr" ]`|ecr endpoints|
+  |`endpoints.ssm`|list|`["ssm", "ssmmessages", "ec2messages"]`|ssm endpoints|
+  |`endpoints.ecr`|list|`[ "ecr.api", "ecr.dkr" ]`|ecr endpoints|
+
 
 ### Outputs
 

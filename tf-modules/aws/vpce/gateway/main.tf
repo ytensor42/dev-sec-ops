@@ -13,7 +13,7 @@ variable "vpc_name" {
   default = "default"
 }
 
-variable "network_type" {
+variable "network_name" {
   type = string
   default = "private"
 }
@@ -24,51 +24,43 @@ data "aws_vpc" "vpc" {
   }
 }
 
-data "aws_subnets" "network" {
-  filter {
-    name = "vpc-id"
-    values = [data.aws_vpc.vpc.id]
-  }
+data "aws_route_tables" "rts" {
+  vpc_id = data.aws_vpc.vpc.id
   filter {
     name = "tag:Name"    
-    values = ["${var.vpc_name}-subnet-${var.network_type}-*"]
+    values = ["${var.vpc_name}-rtb-${var.network_name}-*"]
   }
-}
-
-data "aws_subnet" "network" {
-  for_each = toset(data.aws_subnets.network.ids)
-  id = each.value
 }
 
 locals {
-  network_cidrs = [for s in data.aws_subnet.network : s.cidr_block]
   endpoints = {
-    "ssm" = [ "ssm", "ssmmessages", "ec2messages" ]
-    "ecr" = [ "ecr.api", "ecr.dkr" ]
+    "s3" = [ "s3" ]
   }
-}
-
-resource "aws_security_group" "sg" {
-  name = "${var.vpc_name}-sg-${var.endpoint}"
-  vpc_id = data.aws_vpc.vpc.id
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = local.network_cidrs
-  }
-  tags = { Name = "${var.vpc_name}-sg-${var.endpoint}" }
+  vpce_route_pairs = flatten([
+    for vpce_id in toset(aws_vpc_endpoint.endpoint[*].id) : [
+      for rt_id in toset(data.aws_route_tables.rts.ids) : {
+        vpce_id  = vpce_id
+        rt_id = rt_id
+      }
+    ]
+  ])
 }
 
 resource "aws_vpc_endpoint" "endpoint" {
-  for_each = length(aws_security_group.sg) == 0 ? []:toset(local.endpoints[var.endpoint])
+  for_each = toset(local.endpoints[var.endpoint])
 
-  vpc_id              = data.aws_vpc.vpc.id
-  service_name        = "com.amazonaws.${var.region}.${each.key}"
-  vpc_endpoint_type   = "Interface"
-  subnet_ids          = data.aws_subnets.network.ids
-  security_group_ids  = [aws_security_group.sg.id]
-  private_dns_enabled = true
+  vpc_id            = data.aws_vpc.vpc.id
+  service_name      = "com.amazonaws.${var.region}.${each.key}"
+  vpc_endpoint_type = "Gateway"
   tags = { Name = "${var.vpc_name}-vpce-${each.key}" }
+}
+
+resource "aws_vpc_endpoint_route_table_association" "rt_association" {
+  count = length(data.aws_route_tables.rts.ids)
+  for_each = {
+    for pair in local.vpce_route_pairs: "${pair.vpce_id}-${pair.rt_id}" => pair
+  }
+
+  route_table_id  = each.value.rt_id
+  vpc_endpoint_id = each.value.vpce_id
 }

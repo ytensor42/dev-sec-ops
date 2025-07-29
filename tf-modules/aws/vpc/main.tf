@@ -58,16 +58,6 @@ resource "aws_nat_gateway" "nat_gw" {
   }
 }
 
-# S3 VPC Endpoint
-
-resource "aws_vpc_endpoint" "s3" {
-  count = (var.public_subnet != 0 || var.private_subnet != 0) ? 1:0
-  vpc_id = aws_vpc.vpc.id
-  service_name = "com.amazonaws.${var.region}.s3"
-  tags = {
-    Name = "${var.vpc_name}-vpce-s3"
-  }
-}
 
 # Default security group
 
@@ -107,7 +97,7 @@ resource "aws_route_table" "public" {
     gateway_id = aws_internet_gateway.igw[0].id
   }
   tags = {
-    Name = "${var.vpc_name}-rtb-public"
+    Name = "${var.vpc_name}-rtb-public-all"
   }
 }
 
@@ -138,42 +128,43 @@ resource "aws_route_table_association" "private" {
   route_table_id = aws_route_table.private[count.index].id
 }
 
-resource "aws_vpc_endpoint_route_table_association" "public" {
-  count = (var.public_subnet != 0 && var.private_subnet == 0) ? 1:0
-  route_table_id  = aws_route_table.public[0].id
-  vpc_endpoint_id = aws_vpc_endpoint.s3[0].id
-}
+#resource "aws_vpc_endpoint_route_table_association" "public" {
+#  count = (var.public_subnet != 0 && var.private_subnet == 0) ? 1:0
+#  route_table_id  = aws_route_table.public[0].id
+#  vpc_endpoint_id = aws_vpc_endpoint.s3[0].id
+#}
+#
+#resource "aws_vpc_endpoint_route_table_association" "private" {
+#  count = var.private_subnet
+#  route_table_id  = aws_route_table.private[count.index].id
+#  vpc_endpoint_id = aws_vpc_endpoint.s3[0].id
+#}
 
-resource "aws_vpc_endpoint_route_table_association" "private" {
-  count = var.private_subnet
-  route_table_id  = aws_route_table.private[count.index].id
-  vpc_endpoint_id = aws_vpc_endpoint.s3[0].id
+#resource "aws_vpc_endpoint" "s3" {
+#  count = (var.public_subnet != 0 || var.private_subnet != 0) ? 1:0
+#  vpc_id = aws_vpc.vpc.id
+#  service_name = "com.amazonaws.${var.region}.s3"
+#  tags = {
+#    Name = "${var.vpc_name}-vpce-s3"
+#  }
+#}
+
+## S3 VPC Endpoint
+module "vpce_s3" {
+  count  = (var.public_subnet != 0 || var.private_subnet != 0) ? 1:0
+
+  source = "git@github.com:ytensor42/demos.git//tf-modules/aws/vpce/gateway" 
+  vpc_name = var.vpc_name
+  endpoint = "s3"
+  network_name = "private"
 }
 
 ## SSM VPC Endpoints
-
-resource "aws_security_group" "sg_ssm" {
+module "vpce_ssm" {
   count  = (var.private_subnet != 0 && var.ssm_vpce) ? 1:0
-  name   = "${var.vpc_name}-sg-ssm"
-  vpc_id = aws_vpc.vpc.id
 
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = local.private_cidrs
-  }
-  tags = { Name = "${var.vpc_name}-sg-ssm" }
-}
-
-resource "aws_vpc_endpoint" "ssm_endpoints" {
-  for_each = (var.private_subnet != 0 && var.ssm_vpce) ? toset(local.ssm_endpoints):[]
-
-  vpc_id              = aws_vpc.vpc.id
-  service_name        = "com.amazonaws.${var.region}.${each.key}"
-  vpc_endpoint_type   = "Interface"
-  subnet_ids          = aws_subnet.private[*].id
-  security_group_ids  = [aws_security_group.sg_ssm[0].id]
-  private_dns_enabled = true
-  tags = { Name = "${var.vpc_name}-vpce-${each.key}" }
+  source = "git@github.com:ytensor42/demos.git//tf-modules/aws/vpce/interface" 
+  vpc_name = var.vpc_name
+  endpoint = "ssm"
+  network_name = "private"
 }
