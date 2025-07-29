@@ -31,7 +31,6 @@ module "domain" {
   delegation = true
 }
 
-
 resource "aws_iam_policy" "s3_policy" {
   name        = "S3-RW-<s3_bucket>-<config_key>"
   path        = "/"
@@ -69,7 +68,6 @@ module "instance_profile_ssm_ecr" {
   ]
   depends_on = [aws_iam_policy.s3_policy]
 }
-
 
 module "instance_profile_ssm" {
   source = "<module_base>/aws/role/instance_profile"

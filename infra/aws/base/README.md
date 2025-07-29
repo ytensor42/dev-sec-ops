@@ -1,14 +1,20 @@
 # Base Infrastructure
+
 - Base infrastructure configurations
+
 - VPC `default`
     - 2 public subnets
     - 2 private subnets
     - no NAT gateway
-- Private DNS Zone `demo.ansolute.com`
+
+- Public DNS Zone `demos.aws.ansolute.com`
     - associated with `default` VPC
+
 - S3 VPC Endpoint for private subnets
+
 - S3 Policy
-    - RW for ytensor42-common/config/*
+    - RW for `ytensor42-common/config/*`
+
 - Instance Roles
     - `instance-profile-ssm-ecr`
         - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
@@ -17,5 +23,7 @@
     - `instance-profile-ssm`
         - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
         - S3 Policy arn for base configuration
+
 - Diagram
-    ![base infrastructure](../images/base-infra-default.drawio.png)
+
+    ![base infrastructure](../images/base-infra-default.png)

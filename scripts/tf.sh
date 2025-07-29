@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
-# terraform
+# terraform wrapper
+#
+# This script is designed for both manual execution via the command line and automated execution via GitHub Actions workflows.
+#
 
 CONFIG="./../config.yaml"
 TFDIR="./../temp"
 OS=$(uname -s)
 COMMAND=$1
 
-## fundtions
+## functions
 tf_generate_from_infra_template() {
 
     INFRA=$1

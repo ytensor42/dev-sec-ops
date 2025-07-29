@@ -46,8 +46,8 @@
   |`public_subnet_availability_zone`|list(str)|public subnet availability zones|
   |`public_subnet_ids`|list(str)|public subnet IDs|
   |`public_subnet_cidrs`|list(str)|public subnet CIDRs|
-  |`public_rt_ids`|lst(str)|public subnet route table IDs|
+  |`public_rt_ids`|list(str)|public subnet route table IDs|
   |`private_subnet_availability_zone`|list(str)|private subnet availability zones|
   |`private_subnet_ids`|list(str)|private subnet IDs|
   |`private_subnet_cidrs`|list(str)|private subnet CIDRs|
-  |`private_rt_ids`|lst(str)|private subnet route table IDs|
+  |`private_rt_ids`|list(str)|private subnet route table IDs|

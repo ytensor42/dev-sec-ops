@@ -1,3 +1,36 @@
+## `aws/vpce/gateway` module
+
+- VPC Endpoint module
+
+### Source
+  ```
+  module "gateway" {
+    source = "git@github.com:ytensor42/demos.git//tf-modules/aws/vpce/gateway"
+    endpoint = "s3"
+  }
+  ```
+
+### Variables
+
+  |name|type|default|comments|
+  |---|---|---|---|
+  |`region`|str|`us-west-2`|region|
+  |`endpoint`|str|`s3`|endpoint|
+  |`vpc_name`|str|`dev`|vpc name|
+
+
+### Local constants
+
+  |name|type|value|comments|
+  |----|----|-----|--------|
+  |||||
+
+
+### Outputs
+
+  - N/A
+
+
 ## `aws/vpce/interface` module
 
 - VPC Endpoint module
