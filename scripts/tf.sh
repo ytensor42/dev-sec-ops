@@ -14,9 +14,8 @@ tf_generate_from_infra_template() {
 
     INFRA=$1
 
-    [ ! -d $TFDIR ] \
-        && mkdir $TFDIR \
-        || rm -rf ${TFDIR}/.terraform* ${TFDIR}/*.tf
+    [ -d $TFDIR ] && rm -rf ${TFDIR}
+    mkdir $TFDIR
 
     echo "Infra: $INFRA"
 
