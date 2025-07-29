@@ -56,7 +56,6 @@ resource "aws_vpc_endpoint" "endpoint" {
 }
 
 resource "aws_vpc_endpoint_route_table_association" "rt_association" {
-  count = length(data.aws_route_tables.rts.ids)
   for_each = {
     for pair in local.vpce_route_pairs: "${pair.vpce_id}-${pair.rt_id}" => pair
   }

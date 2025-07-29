@@ -16,7 +16,7 @@ tf_generate_from_infra_template() {
 
     [ ! -d $TFDIR ] \
         && mkdir $TFDIR \
-        || rm -f ${TFDIR}/.terraform* ${TFDIR}/*.tf
+        || rm -rf ${TFDIR}/.terraform* ${TFDIR}/*.tf
 
     echo "Infra: $INFRA"
 
@@ -47,8 +47,8 @@ tf_generate_from_infra_template() {
 ## main
 
 #INFRA="infra/aws/base"
-INFRA=$1
-COMMAND=$2   # plan, show, apply, destroy
+COMMAND=$1   # plan, show, apply, destroy
+INFRA=$2
 [ ! -d ../$INFRA ] \
     && echo "Error: ($INFRA) Folder Not Exist" && exit 1
 
