@@ -47,12 +47,12 @@ locals {
 }
 
 resource "aws_vpc_endpoint" "endpoint" {
-  for_each = toset(local.endpoints[var.endpoint])
+  count = length(local.endpoints[var.endpoint])
 
   vpc_id            = data.aws_vpc.vpc.id
-  service_name      = "com.amazonaws.${var.region}.${each.key}"
+  service_name      = "com.amazonaws.${var.region}.${local.endpoints[var.endpoint][count.index]}"
   vpc_endpoint_type = "Gateway"
-  tags = { Name = "${var.vpc_name}-vpce-${each.key}" }
+  tags = { Name = "${var.vpc_name}-vpce-${local.endpoints[var.endpoint][count.index]}" }
 }
 
 resource "aws_vpc_endpoint_route_table_association" "rt_association" {
