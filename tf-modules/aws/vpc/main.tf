@@ -150,13 +150,24 @@ resource "aws_route_table_association" "private" {
 #}
 
 ## S3 VPC Endpoint
-module "vpce_s3" {
-  count  = (var.public_subnet != 0 || var.private_subnet != 0) ? 1:0
+module "vpce_s3_public" {
+  count  = (var.public_subnet != 0 || var.private_subnet == 0) ? 1:0
+
+  source = "git@github.com:ytensor42/demos.git//tf-modules/aws/vpce/gateway" 
+  vpc_name = var.vpc_name
+  endpoint = "s3"
+  network_name = "public"
+  depends_on = [aws_vpc.vpc, aws_route_table.public]
+}
+
+module "vpce_s3_private" {
+  count  = (var.private_subnet != 0) ? 1:0
 
   source = "git@github.com:ytensor42/demos.git//tf-modules/aws/vpce/gateway" 
   vpc_name = var.vpc_name
   endpoint = "s3"
   network_name = "private"
+  depends_on = [aws_vpc.vpc, aws_route_table.private]
 }
 
 ## SSM VPC Endpoints
@@ -167,4 +178,5 @@ module "vpce_ssm" {
   vpc_name = var.vpc_name
   endpoint = "ssm"
   network_name = "private"
+  depends_on = [aws_vpc.vpc, aws_subnet.private]
 }
