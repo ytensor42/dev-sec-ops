@@ -9,7 +9,7 @@ infra:
   aws:
     base:
 #      module_base: git\@github.com:ytensor42/demos.git//tf-modules
-      module_base: /home/runner/work/demos/demos/tf-modules
+      module_base: ./../tf-modules
       vpc_name: default
       account_id: 119145547444
       aws_region: us-west-2
