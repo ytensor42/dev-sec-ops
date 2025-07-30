@@ -1,0 +1,34 @@
+name: Tools install
+description: Tools install
+
+inputs:
+  terraform:
+    type: string
+    default: 'false'
+  eksctl:
+    type: string
+    default: 'false'
+
+runs:
+  using: "composite"
+  steps:
+    - name: path
+      shell: bash
+      run: |
+        if [[ ! -d bin/ ]]; then
+          mkdir bin
+        fi
+
+    - name: terraform
+      if: ${{ inputs.terraform == 'true' }}
+      shell: bash
+      run: |
+        curl -sLO https://releases.hashicorp.com/terraform/1.11.4/terraform_1.11.4_linux_amd64.zip && unzip terraform_1.11.4_linux_amd64.zip && mv terraform bin/ && rm -f LICENSE.txt terraform_1.11.4_linux_amd64.zip
+        echo "==> Check: $( bin/terraform -version )"
+
+    - name: eksctl
+      if: ${{ inputs.eksctl == 'true' }}
+      shell: bash
+      run: |
+        curl -sLO https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_Linux_amd64.tar.gz && tar -xzf eksctl_Linux_amd64.tar.gz && mv eksctl bin/ && rm -f eksctl_Linux_amd64.tar.gz
+        echo "==> Check: $( bin/eksctl version )"

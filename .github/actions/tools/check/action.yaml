@@ -1,0 +1,27 @@
+name: Tools check
+description: Tools check
+
+runs:
+  using: "composite"
+  steps:
+    - name: check
+      id: check
+      shell: bash
+      run: |
+        PATH=${PATH}:bin
+        echo "- Linux: $(uname -a)"
+        echo "- aws: $(which aws)"
+        echo "- docker: $(which docker)"
+        echo "- git: $(which git)"
+        echo "- helm: $(which helm)"
+        echo "- kubectl: $(which kubectl)"
+        echo "- eksctl: $(which eksctl)"
+        echo "- terraform: $(which terraform)"
+        echo "- jq: $(which jq)"
+        echo "- yq: $(which yq)"
+        echo "- python: $(which python)"
+        echo "- pip: $(which pip)"
+        echo "- tar: $(which tar)"
+        echo "- zip: $(which zip)"
+        echo "- unzip: $(which unzip)"
+        echo "- wget: $(which wget)"
