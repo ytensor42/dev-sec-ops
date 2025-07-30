@@ -41,7 +41,11 @@ jobs:
       - name: terraform
         shell: bash
         run: |
+          echo $PWD
           echo "/"
           ls -l /
+          echo $PWD
           echo "~/"
           ls -l ~/
+          echo $PWD
+          ls -l
