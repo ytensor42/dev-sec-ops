@@ -23,7 +23,7 @@ runs:
       if: ${{ inputs.terraform == 'true' }}
       shell: bash
       run: |
-        curl -sLO https://releases.hashicorp.com/terraform/1.11.4/terraform_1.11.4_linux_amd64.zip && unzip terraform_1.11.4_linux_amd64.zip && mv terraform bin/ && rm -f LICENSE.txt terraform_1.11.4_linux_amd64.zip
+        curl -sLO https://releases.hashicorp.com/terraform/1.12.2/terraform_1.12.2_linux_amd64.zip && unzip terraform_1.12.2_linux_amd64.zip && mv terraform bin/ && rm -f LICENSE.txt terraform_1.12.2_linux_amd64.zip
         echo "==> Check: $( bin/terraform -version )"
 
     - name: eksctl

@@ -58,6 +58,7 @@ jobs:
       - name: terraform
         shell: bash
         run: |
+          PATH=$PATH:${PWD}/bin:${PWD}/scripts
           cd scripts/
           generate.sh "${{ inputs.command }}" "${{ inputs.infra }}"
           terraform -chdir=../temp init
