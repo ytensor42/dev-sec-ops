@@ -152,15 +152,6 @@ resource "aws_vpc_endpoint_route_table_association" "private" {
   vpc_endpoint_id = aws_vpc_endpoint.s3[0].id
 }
 
-resource "aws_vpc_endpoint" "s3" {
-  count = (var.public_subnet != 0 || var.private_subnet != 0) ? 1:0
-  vpc_id = aws_vpc.vpc.id
-  service_name = "com.amazonaws.${var.region}.s3"
-  tags = {
-    Name = "${var.vpc_name}-vpce-s3"
-  }
-}
-
 
 ## SSM VPC Endpoints
 module "vpce_ssm" {
