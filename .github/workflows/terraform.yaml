@@ -41,6 +41,7 @@ jobs:
             .github/
             infra/
             scripts/
+            tf-modules/
             config.yaml
           sparse-checkout-cone-mode: false
 
