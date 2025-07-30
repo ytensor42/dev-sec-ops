@@ -1,0 +1,72 @@
+name: Terraform
+
+on:
+  workflow_dispatch:
+    inputs:
+      infra:
+        description: 'Infrastructure'
+        type: string
+        default: 'infra/aws/base'
+      command:
+        description: 'Command'
+        type: choice
+        default: 'show'
+        options:
+        - show
+        - plan
+        - create
+        - destroy
+
+jobs:
+  Terraform-Task:
+    name: "terraform ${{ inputs.infra }} ${{ inputs.command }} @${{ github.ref }}"
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      packages: read
+    steps:
+      - name: Information
+        id: info
+        shell: bash
+        run: |
+          echo "infra : ${{ inputs.infra }}"
+          echo "command : ${{ inputs.command }}"
+          echo "Date & Time: $(date +%F_%T%Z)"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github/
+            infra/
+            scripts/
+          sparse-checkout-cone-mode: false
+
+      - name: Tools install
+        uses: ./.github/actions/tools/install
+        with:
+          terraform: true
+
+      - name: AWS credentials
+        id: aws
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::119145547444:role/ytensor42-demos
+          aws-region: us-west-2
+
+      - name: terraform
+        shell: bash
+        run: |
+          cd scripts/
+          generate.sh "${{ inputs.command }}" "${{ inputs.infra }}"
+          terraform -chdir=../temp init
+          if [[ "${{ inputs.task }}" == "show" ]]; then
+            terraform -chdir=../temp show
+          elif [[ "${{ inputs.task }}" == "plan" ]]; then
+            terraform -chdir=../temp plan
+          elif [[ "${{ inputs.task }}" == "create" ]]; then
+            terraform -chdir=../temp apply -auto-approve
+          else
+            terraform -chdir=../temp destroy -auto-approve
+          fi
