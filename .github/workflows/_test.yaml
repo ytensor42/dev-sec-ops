@@ -25,7 +25,7 @@ jobs:
         with:
           sparse-checkout: |
             .github/
-            sciprts/
+            scripts/
             config.yaml
           sparse-checkout-cone-mode: false
 
@@ -41,11 +41,9 @@ jobs:
       - name: terraform
         shell: bash
         run: |
-          echo $PWD
-          echo "/"
+          echo "ls -l /"
           ls -l /
-          echo $PWD
-          echo "~/"
+          echo "ls -l ~/"
           ls -l ~/
           echo $PWD
           ls -l
