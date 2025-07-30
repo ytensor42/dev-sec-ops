@@ -1,0 +1,47 @@
+name: _TEST
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'action'
+        type: choice
+        default: 'test job'
+        options:
+        - test job
+
+jobs:
+  Test-Job:
+    name: "Test-Job"
+    if: ${{ inputs.action == 'test job' }}
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      packages: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github/
+            sciprts/
+            config.yaml
+          sparse-checkout-cone-mode: false
+
+      - name: Tools install
+        uses: ./.github/actions/tools/install
+        with:
+          terraform: true
+          eksctl: true
+
+      - name: Tools check
+        uses: ./.github/actions/tools/check
+
+      - name: terraform
+        shell: bash
+        run: |
+          echo "/"
+          ls -l /
+          echo "~/"
+          ls -l ~/
