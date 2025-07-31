@@ -10,6 +10,10 @@ provider "aws" {
   region = "<aws_region>" 
 }
 
+provider "github" {
+  token = "<github_token>"
+}
+
 #############################################################
 variable "vpc_name" { default = "<vpc_name>" }
 

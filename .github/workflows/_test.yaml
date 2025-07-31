@@ -47,3 +47,6 @@ jobs:
           ls -l ~/
           echo $PWD
           ls -l
+          env
+          echo "gh token"
+          echo GITHUB_TOKEN
