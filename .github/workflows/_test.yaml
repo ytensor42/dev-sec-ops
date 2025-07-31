@@ -29,17 +29,24 @@ jobs:
             config.yaml
           sparse-checkout-cone-mode: false
 
-      - name: Tools install
-        uses: ./.github/actions/tools/install
+#      - name: Tools install
+#        uses: ./.github/actions/tools/install
+#        with:
+#          terraform: true
+#          eksctl: true
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
         with:
-          terraform: true
-          eksctl: true
+          terraform_version: 1.5.0
 
       - name: Tools check
         uses: ./.github/actions/tools/check
 
       - name: terraform
         shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "ls -l /"
           ls -l /
@@ -49,4 +56,4 @@ jobs:
           ls -l
           env
           echo "gh token"
-          echo GITHUB_TOKEN
+          echo $GITHUB_TOKEN
