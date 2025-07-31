@@ -86,12 +86,14 @@ jobs:
           cd scripts/
           generate.sh "${{ inputs.command }}" "${{ inputs.infra }}"
           terraform -chdir=../temp init
-          if [[ "${{ inputs.task }}" == "show" ]]; then
+          if [[ "${{ inputs.command }}" == "show" ]]; then
             terraform -chdir=../temp show
-          elif [[ "${{ inputs.task }}" == "plan" ]]; then
+          elif [[ "${{ inputs.command }}" == "plan" ]]; then
             terraform -chdir=../temp plan
-          elif [[ "${{ inputs.task }}" == "create" ]]; then
+          elif [[ "${{ inputs.command }}" == "create" ]]; then
             terraform -chdir=../temp apply -auto-approve
-          else
+          elif [[ "${{ inputs.command }}" == "destroy" ]]; then
             terraform -chdir=../temp destroy -auto-approve
+          else
+            echo "Error: ${{ inputs.command }} Not supported command"
           fi
