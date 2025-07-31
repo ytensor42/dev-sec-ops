@@ -57,6 +57,26 @@ jobs:
           role-to-assume: arn:aws:iam::119145547444:role/ytensor42-demos
           aws-region: us-west-2
 
+#      - name: Set up GitHub credentials for Terraform Git module access
+#        run: |
+#          cat > ~/.netrc <<EOF
+#          machine github.com
+#          login ${{ secrets.GITHUB_TOKEN }}
+#          password x-oauth-basic
+#          EOF
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_PAT }}
+
+      - name: Setup SSH for Git-Terraform
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.T7_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
+
       - name: terraform
         shell: bash
         env:
