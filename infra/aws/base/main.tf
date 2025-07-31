@@ -10,10 +10,6 @@ provider "aws" {
   region = "<aws_region>" 
 }
 
-provider "github" {
-  token = "<github_token>"
-}
-
 #############################################################
 variable "vpc_name" { default = "<vpc_name>" }
 
@@ -28,12 +24,12 @@ module "vpc" {
   ssm_vpce = false
 }
 
-#module "domain" {
-#  source = "<module_base>/aws/domain"
-#  root_domain = "aws.ansolute.com"
-#  sub_domain = "demo"
-#  delegation = true
-#}
+module "domain" {
+  source = "<module_base>/aws/domain"
+  root_domain = "aws.ansolute.com"
+  sub_domain = "demo"
+  delegation = true
+}
 
 resource "aws_iam_policy" "s3_policy" {
   name        = "S3-RW-<s3_bucket>-<config_key>"
