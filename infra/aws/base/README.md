@@ -1,6 +1,7 @@
 # Base Infrastructure
 
 - Base infrastructure configurations
+    - [![Terraform](https://github.com/ytensor42/demos/actions/workflows/terraform.yaml/badge.svg)](https://github.com/ytensor42/demos/actions/workflows/terraform.yaml)
 
 - VPC `default`
     - 2 public subnets
