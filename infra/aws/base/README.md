@@ -27,3 +27,5 @@
 - Diagram
 
     ![base infrastructure](../images/base-infra-default.png)
+
+    ![base infrastructure](../images/base-infra-default2.png)

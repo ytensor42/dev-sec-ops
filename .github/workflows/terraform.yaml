@@ -43,7 +43,6 @@ jobs:
             scripts/
             config.yaml
           sparse-checkout-cone-mode: false
-#            tf-modules/
 
       - name: Tools install
         uses: ./.github/actions/tools/install
