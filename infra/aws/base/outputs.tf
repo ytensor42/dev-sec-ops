@@ -19,9 +19,9 @@ output "private_subnet_cidrs" {
   value = module.vpc.private_subnet_cidrs
 }
 
-#output "zone" {
-#  value = module.domain.zone
-#}
+output "zone" {
+  value = module.domain.zone
+}
 
 output "instance_profile_ssm_ecr_profile_name" {
   value = module.instance_profile_ssm_ecr.profile_name
