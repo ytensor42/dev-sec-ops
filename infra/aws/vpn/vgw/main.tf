@@ -11,14 +11,21 @@ provider "aws" {
 }
 
 #############################################################
+variable "vpc_name" { default = "<vpc_name>" }
+variable "ip_address" { default = "<ip_address>" }
+
+module "vpc" {
+  source = "<module_base>/aws/data/vpc"
+  vpc_name = var.vpc_name
+}
 
 resource "aws_vpn_gateway" "vgw" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = module.vpc.vpc_id
 }
 
 resource "aws_customer_gateway" "cgw" {
   bgp_asn    = 65000
-  ip_address = "203.0.113.12"
+  ip_address = var.ip_address
   type       = "ipsec.1"
 }
 
@@ -31,14 +38,14 @@ resource "aws_vpn_connection" "vpn" {
 
 resource "aws_vpn_connection_route" "route" {
   vpn_connection_id      = aws_vpn_connection.vpn.id
-  destination_cidr_block = "10.0.0.0/16"
+  destination_cidr_block = module.vpc.cidr_block
 }
 
 resource "aws_route_table" "private_rt" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = module.vpc.vpc_id
 
   route {
-    cidr_block = "192.168.100.0/24"
+    cidr_block = module.vpc.cidr_block
     gateway_id = aws_vpn_gateway.vgw.id
   }
 }

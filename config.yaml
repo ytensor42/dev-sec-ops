@@ -27,6 +27,9 @@ infra:
       vgw:
         <<: *aws_common
         tfstate_key: terraform-state/vgw/tfstate
+        vpc_name: default
+        ip_address: "73.93.186.146"
       tgw:
         <<: *aws_common
         tfstate_key: terraform-state/tgw/tfstate
+        vpc_name: default
