@@ -17,7 +17,7 @@ infra:
       tfstate_key: terraform-state/default/tfstate
       vpc_name: default
     vpn:
-      awsclient:
+      awsclientvpn:
         <<: *aws_common
         tfstate_key: terraform-state/awsclient/tfstate
         vpc_name: default

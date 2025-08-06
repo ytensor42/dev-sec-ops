@@ -1,4 +1,4 @@
-# AWS VPN Client
+# AWS Client VPN
 
 ## Description
   - AWS Client VPN is a fully managed, scalable, and secure VPN service that enables remote users (e.g., developers, administrators, contractors) to securely connect to AWS resources and on-premises networks using the OpenVPN protocol
@@ -6,7 +6,7 @@
 
 ### Diagram
 
-  ![AWS VPN Client](./../../images/vpn-aws-client.png)
+  ![AWS Client VPN](./../../images/vpn-aws-client.png)
 
 ### Features
   - Fully managed by AWS — no need to deploy or manage VPN servers

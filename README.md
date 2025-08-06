@@ -10,7 +10,7 @@
         - Single AWS VPC with public and private subnets on 2 availability zones
 
     - AWS VPN
-        - [AWS Client VPN](./infra/aws/vpn/awsclient/README.md)
+        - [AWS Client VPN](./infra/aws/vpn/awsclientvpn/README.md)
             - Open VPN client to single VPC
         - [Site-to-Site with VPN Gateway](./infra/aws/vpn/vgw/README.md)
             - Single VPC to on-prem, AWS VPC, GCP, Azure
