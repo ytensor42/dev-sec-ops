@@ -41,6 +41,10 @@ output "vpc_id" {
   value = data.aws_vpc.default.id
 }
 
+output "cidr_block" {
+  value = data.aws_vpc.cidr_block
+}
+
 output "subnet_ids" {
   value = [for s in data.aws_subnet.subnets: s.id if strcontains(s.tags["Name"], var.vpc_name)]
   depends_on = [ data.aws_subnets.subnets ]

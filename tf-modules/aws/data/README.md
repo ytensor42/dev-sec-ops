@@ -48,6 +48,7 @@
   |name|type|comments|
   |---|---|---|
   |`vpc_id`|str|vpc id|
+  |`cidr_block`|str|vpc cidr block|
   |`subnet_ids`|list(str)|subnet ids|
   |`subnet_cidrs`|list(str)|subnet CIDRs|
   |`rt_ids`|list(str)|subnet route table IDs|

@@ -113,10 +113,10 @@ resource "aws_route_table" "private_rt" {
 ```hcl
 resource "aws_ec2_client_vpn_endpoint" "vpn" {
   description              = "Client VPN"
-  server_certificate_arn  = var.server_cert_arn
+  server_certificate_arn  = var.server_certificate_arn
   authentication_options {
     type                       = "certificate-authentication"
-    root_certificate_chain_arn = var.client_ca_arn
+    root_certificate_chain_arn = var.root_certificate_chain_arn
   }
   client_cidr_block        = "10.11.0.0/16"
   connection_log_options {

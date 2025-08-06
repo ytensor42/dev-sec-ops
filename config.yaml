@@ -1,6 +1,5 @@
-# This file is an example of config-as-code.
-# Not only can infrastructure and applications be defined in code,
-# but their configuration settings can also be expressed as code and version-controlled in a repository.
+# terraform meta config
+# can be used to define any custom values
 #
 # (*) Following characters need to be escaped for value
 # (*) @|\"'
@@ -21,6 +20,10 @@ infra:
       awsclient:
         <<: *aws_common
         tfstate_key: terraform-state/awsclient/tfstate
+        vpc_name: default
+        dns_zone: aws.ansolute.com
+        server_certificate_arn: arn:aws:acm:us-west-2:119145547444:certificate/01179300-ab59-4150-aa85-9b28d06e7941
+        root_certificate_chain_arn: arn:aws:acm:us-west-2:119145547444:certificate/68a7a3f5-dfa5-4af0-8af5-0e7624abc84c
       vgw:
         <<: *aws_common
         tfstate_key: terraform-state/vgw/tfstate
