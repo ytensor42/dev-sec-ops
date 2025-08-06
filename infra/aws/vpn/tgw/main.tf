@@ -90,7 +90,7 @@ resource "aws_ec2_transit_gateway_route_table_propagation" "vpn_propagation" {
 
 # From VPN to VPC
 resource "aws_ec2_transit_gateway_route" "vpc_route" {
-  destination_cidr_block         = module.vpc.cidr_block
+  destination_cidr_block         = module.vpc.cidr_block   # vpc cidr
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.main.id
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.vpc.id
 }

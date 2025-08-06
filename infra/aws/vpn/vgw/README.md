@@ -40,34 +40,34 @@
 
 ### Terraform Key Resources
 
-    resource "aws_vpn_gateway" "vgw" {
-      vpc_id = aws_vpc.main.id
+    resource "aws_vpn_gateway" "main" {
+      vpc_id = var.vpc_id
     }
 
     resource "aws_customer_gateway" "cgw" {
       bgp_asn    = 65000
-      ip_address = "x.x.x.x"
+      ip_address = "a.a.a.a"                                # remote gateway IP
       type       = "ipsec.1"
     }
 
     resource "aws_vpn_connection" "vpn" {
-      vpn_gateway_id        = aws_vpn_gateway.vgw.id
+      vpn_gateway_id        = aws_vpn_gateway.main.id
       customer_gateway_id   = aws_customer_gateway.cgw.id
       type                  = "ipsec.1"
-      static_routes_only    = true                         # false - dynamic routing, BGP
+      static_routes_only    = true                          # false - dynamic routing, BGP
       tunnel1_preshared_key = "<psk key 1>"
       tunnel1_inside_cidr   = "<inside cide 1>"
       tunnel2_preshared_key = "<psk key 2>"
       tunnel2_inside_cidr   = "<inside cide 2>"
     }
 
-    resource "aws_vpn_connection_route" "to_vpc" {          # only need when `static_routes_only = true`
+    resource "aws_vpn_connection_route" "vpc_route" {       # only need when `static_routes_only = true`
       vpn_connection_id      = aws_vpn_connection.vpn.id
       destination_cidr_block = "y.y.y.y/y"                  # VPC CIDR
     }
 
-    resource "aws_route" "to_remote" {
+    resource "aws_route" "vpn_route" {
       route_table_id         = vpc.private_rt_id
       destination_cidr_block = "z.z.z.z/z"                  # remote CIDR
-      gateway_id             = aws_vpn_gateway.vgw.id
+      gateway_id             = aws_vpn_gateway.main.id
     }

@@ -46,7 +46,7 @@
 
     resource "aws_customer_gateway" "cgw" {
       bgp_asn    = 65000
-      ip_address = "a.a.a.a"
+      ip_address = "a.a.a.a"                              # remote gateway IP
       type       = "ipsec.1"
     }
 
