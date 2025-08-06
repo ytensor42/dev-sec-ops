@@ -1,4 +1,4 @@
-# Labs
+# Dev Sec Ops
 
 ### Infrastructure as Code [![Terraform](https://github.com/ytensor42/dev-sec-ops/actions/workflows/terraform.yaml/badge.svg?branch=main)](https://github.com/ytensor42/dev-sec-ops/actions/workflows/terraform.yaml)
 
