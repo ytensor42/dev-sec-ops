@@ -19,7 +19,7 @@ infra:
     vpn:
       awsclientvpn:
         <<: *aws_common
-        tfstate_key: terraform-state/awsclient/tfstate
+        tfstate_key: terraform-state/awsclientvpn/tfstate
         vpc_name: default
         dns_zone_name: aws.ansolute.com
         server_certificate_arn: arn:aws:acm:us-west-2:119145547444:certificate/01179300-ab59-4150-aa85-9b28d06e7941

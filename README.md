@@ -9,7 +9,7 @@
     - [Base infrastructure on AWS](./infra/aws/base/README.md)
         - Single AWS VPC with public and private subnets on 2 availability zones
 
-    - AWS VPN
+    - [AWS VPN](./infra/aws/vpn/README.md)
         - [AWS Client VPN](./infra/aws/vpn/awsclientvpn/README.md)
             - Open VPN client to single VPC
         - [Site-to-Site with VPN Gateway](./infra/aws/vpn/vgw/README.md)
