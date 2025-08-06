@@ -111,20 +111,44 @@ resource "aws_route_table" "private_rt" {
 
 ## AWS Client VPN (Client-to-VPC)
 ```hcl
+resource "aws_security_group" "client_vpn_sg" {
+  name        = "client-vpn-ep-sg"
+  description = "Allow OpenVPN client traffic"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "udp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "client-vpn-ep-sg"
+  }
+}
+
 resource "aws_ec2_client_vpn_endpoint" "vpn" {
-  description              = "Client VPN"
-  server_certificate_arn  = var.server_certificate_arn
+  description            = "Client VPN"
+  server_certificate_arn = var.server_certificate_arn
   authentication_options {
     type                       = "certificate-authentication"
     root_certificate_chain_arn = var.root_certificate_chain_arn
   }
-  client_cidr_block        = "10.11.0.0/16"
+  client_cidr_block      = "10.11.0.0/16"
   connection_log_options {
     enabled = false
   }
-  split_tunnel             = true
-  vpc_id                   = var.vpc_id
-  security_group_ids       = [aws_security_group.vpn_sg.id]
+  split_tunnel           = true
+  vpc_id                 = var.vpc_id
+  security_group_ids     = [aws_security_group.client_vpn_sg.id]
 }
 
 resource "aws_ec2_client_vpn_network_association" "assoc" {

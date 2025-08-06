@@ -15,6 +15,7 @@ variable "vpc_name" { default = "<vpc_name>" }
 variable "server_certificate_arn" { default = "<server_certificate_arn>" }
 variable "root_certificate_chain_arn" { default = "<root_certificate_chain_arn>" }
 variable "split_tunnel" { default = true }
+variable "dns_zone_name" { default = "<dns_zone_name>" }
 
 module "vpc" {
   source = "<module_base>/aws/data/vpc"
@@ -52,7 +53,7 @@ resource "aws_ec2_client_vpn_endpoint" "vpn" {
     type                       = "certificate-authentication"
     root_certificate_chain_arn = var.root_certificate_chain_arn
   }
-  client_cidr_block      = cidrsubnet(module.vpc.cidr_block, 4, count.index + 10)
+  client_cidr_block      = cidrsubnet(module.vpc.cidr_block, 4, 10)
   connection_log_options {
     enabled = false
   }
@@ -85,12 +86,12 @@ resource "aws_ec2_client_vpn_authorization_rule" "auth" {
 }
 
 data "aws_route53_zone" "zone" {
-  name = "<dns_zone>"
+  name = var.dns_zone_name
 }
 
 resource "aws_route53_record" "vpn_dns" {
-  zone_id = data.aws_route53_zone.zone_id
-  name    = "vpn.<dns_zone>"
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "vpn.${var.dns_zone_name}"
   type    = "CNAME"
   ttl     = 300
   records = [aws_ec2_client_vpn_endpoint.vpn.dns_name]
