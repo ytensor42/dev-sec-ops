@@ -69,19 +69,19 @@ resource "aws_ec2_client_vpn_network_association" "assoc" {
 }
 
 locals {
-    target_cidr_block = cidrsubnet(module.vpc.cidr_block, 3, 4)    # cover 8,9th /20 blocks
+    vpc_cidr_block = cidrsubnet(module.vpc.cidr_block, 3, 4)    # cover 8,9th /20 blocks
 }
 
 resource "aws_ec2_client_vpn_route" "route" {
   for_each               = toset(module.vpc.private_subnet_ids)
   client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.vpn.id
-  destination_cidr_block = local.target_cidr_block
+  destination_cidr_block = local.vpc_cidr_block
   target_vpc_subnet_id   = each.key
 }
 
 resource "aws_ec2_client_vpn_authorization_rule" "auth" {
   client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.vpn.id
-  target_network_cidr    = local.target_cidr_block
+  target_network_cidr    = local.vpc_cidr_block
   authorize_all_groups   = true
 }
 

@@ -39,6 +39,61 @@
   - Per-user logging granularity may be limited without CloudWatch + custom log processing
   - Pricing is per connection-hour — can become expensive for large, always-on deployments
 
+### Terraform Key Resources
+
+    resource "aws_security_group" "client_vpn_sg" {
+      name        = "client-vpn-ep-sg"
+      description = "Allow OpenVPN client traffic"
+      vpc_id      = var.vpc_id
+
+      ingress {
+        from_port   = 443
+        to_port     = 443
+        protocol    = "udp"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
+
+      egress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
+    }
+
+    resource "aws_ec2_client_vpn_endpoint" "vpn" {
+      description            = "AWS Client VPN"
+      server_certificate_arn = var.server_certificate_arn
+      authentication_options {
+        type                       = "certificate-authentication"
+        root_certificate_chain_arn = var.root_certificate_chain_arn
+      }
+      client_cidr_block      = "a.a.a.a/a"              # client cidr block
+      connection_log_options {
+        enabled = false
+      }
+      split_tunnel           = true
+      vpc_id                 = var.vpc_id
+      security_group_ids     = [aws_security_group.client_vpn_sg.id]
+    }
+
+    resource "aws_ec2_client_vpn_network_association" "assoc" {
+      client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.vpn.id
+      subnet_id              = var.private_subnet_id
+    }
+
+    resource "aws_ec2_client_vpn_route" "route" {
+      client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.vpn.id
+      destination_cidr_block = "x.x.x.x/x"              # VPC cidr block
+      target_vpc_subnet_id   = var.private_subnet_id
+    }
+
+    resource "aws_ec2_client_vpn_authorization_rule" "auth" {
+      client_vpn_endpoint_id = aws_ec2_client_vpn_endpoint.vpn.id
+      target_network_cidr    = "x.x.x.x/x"              # VPC cidr block
+      authorize_all_groups   = true
+    }
+
 <hr>
 
 ## VPN Certificates
