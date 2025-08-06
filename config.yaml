@@ -2,17 +2,28 @@
 # Not only can infrastructure and applications be defined in code,
 # but their configuration settings can also be expressed as code and version-controlled in a repository.
 #
-# (*) Following characters need to be escaped in value
-# (*) @|,\"'
+# (*) Following characters need to be escaped for value
+# (*) @|\"'
 #
 infra:
   aws:
-    base:
-      module_base: git\@github.com:ytensor42/demos.git//tf-modules
-#      module_base: ./../tf-modules
-      vpc_name: default
-      account_id: 119145547444
-      aws_region: us-west-2
+    common: &aws_common
       s3_bucket: ytensor42-common
-      tfstate_key: terraform-state/default/tfstate
+      aws_region: us-west-2
+      module_base: git\@github.com:ytensor42/demos.git//tf-modules
+      account_id: 119145547444
       config_key: config
+    base:
+      <<: *aws_common
+      tfstate_key: terraform-state/default/tfstate
+      vpc_name: default
+    vpn:
+      awsclient:
+        <<: *aws_common
+        tfstate_key: terraform-state/awsclient/tfstate
+      vgw:
+        <<: *aws_common
+        tfstate_key: terraform-state/vgw/tfstate
+      tgw:
+        <<: *aws_common
+        tfstate_key: terraform-state/tgw/tfstate
