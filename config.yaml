@@ -1,7 +1,11 @@
-# terraform meta config
-# can be used to define any custom values
+# General config used for scripts and github workflows
+#  - terraform meta values
+#      - can be used to define any custom values
+#  - ci/cd
+#  - security
+#  - MLOps
 #
-# (*) Following characters need to be escaped for value
+# (*) Following characters need to be escaped (\) for value
 # (*) @|\"'
 #
 infra:
@@ -9,7 +13,7 @@ infra:
     common: &aws_common
       s3_bucket: ytensor42-common
       aws_region: us-west-2
-      module_base: git\@github.com:ytensor42/demos.git//tf-modules
+      module_base: git\@github.com:ytensor42/dev-sec-ops.git//tf-modules
       account_id: 119145547444
       config_key: config
     base:
@@ -40,4 +44,15 @@ infra:
         tgw_secrets_name: tgw_secrets
     ec2:
       <<: *aws_common
+  gcp:
+    common:
+  azure:
+    common:
+resource:
+  common:
+  eks1:
+  ecs1:
+mlops:
+  common:
+  project1:
 

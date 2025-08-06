@@ -157,7 +157,7 @@ resource "aws_vpc_endpoint_route_table_association" "private" {
 module "vpce_ssm" {
   count  = (var.private_subnet != 0 && var.ssm_vpce) ? 1:0
 
-  source = "git@github.com:ytensor42/demos.git//tf-modules/aws/vpce/interface" 
+  source = "git@github.com:ytensor42/dev-sec-ops.git//tf-modules/aws/vpce/interface" 
   vpc_name = var.vpc_name
   endpoint = "ssm"
   network_name = "private"

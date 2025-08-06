@@ -40,7 +40,7 @@ resource "aws_customer_gateway" "cgw" {
 }
 
 locals {
-  vgw_secret = jsondecode(data.aws_secretsmanager_secret_version.tgw_secret.secret_string)
+  tgw_secret = jsondecode(data.aws_secretsmanager_secret_version.tgw_secret.secret_string)
 }
 
 resource "aws_vpn_connection" "vpn" {
@@ -49,11 +49,11 @@ resource "aws_vpn_connection" "vpn" {
   type                = "ipsec.1"
   static_routes_only  = false     # dynamic routing, BGP
 
-  tunnel1_preshared_key = local.vgw_secret["tunnel1_preshared_key"]
-  tunnel1_inside_cidr   = local.vgw_secret["tunnel1_inside_cidr"]
+  tunnel1_preshared_key = local.tgw_secret["tunnel1_preshared_key"]
+  tunnel1_inside_cidr   = local.tgw_secret["tunnel1_inside_cidr"]
 
-  tunnel2_preshared_key = local.vgw_secret["tunnel2_preshared_key"]
-  tunnel2_inside_cidr   = local.vgw_secret["tunnel2_inside_cidr"]
+  tunnel2_preshared_key = local.tgw_secret["tunnel2_preshared_key"]
+  tunnel2_inside_cidr   = local.tgw_secret["tunnel2_inside_cidr"]
 
   tags = {
     Name = "${var.vpc_name}-vpn-connection"
