@@ -4,7 +4,11 @@
   - AWS Client VPN is a fully managed, scalable, and secure VPN service that enables remote users (e.g., developers, administrators, contractors) to securely connect to AWS resources and on-premises networks using the OpenVPN protocol
   - It eliminates the need to provision and manage traditional VPN infrastructure
 
-## Features
+### Diagram
+
+  ![AWS VPN Client](./../../images/vpn-aws-client.png)
+
+### Features
   - Fully managed by AWS — no need to deploy or manage VPN servers
   - OpenVPN-based — compatible with standard OpenVPN clients (Windows, macOS, Linux)
   - Authentication options — mutual TLS, SAML 2.0, and Active Directory integration
@@ -14,14 +18,14 @@
   - Fine-grained access control — based on CIDR blocks and security groups
   - CloudWatch logging — connection logs for audit and monitoring
 
-## Common Use Cases
+### Common Use Cases
   - Secure remote access to AWS resources for remote workers or contractors
   - VPC access for developers and operators without using bastion hosts
   - Hybrid network access — connect to both AWS and on-premises environments
   - Zero trust or identity-based security models for internal applications
   - Multi-region or global team access with centralized VPN management
 
-## Limitations
+### Limitations
   - No support for UDP-based applications other than OpenVPN (e.g., VoIP, some real-time apps)
   - No direct peering with VPC endpoints (must configure routing manually)
   - AWS Client VPN does not support IPv6 — only IPv4 traffic is allowed
@@ -35,11 +39,9 @@
   - Per-user logging granularity may be limited without CloudWatch + custom log processing
   - Pricing is per connection-hour — can become expensive for large, always-on deployments
 
-## Diagram
+<hr>
 
-  ![AWS VPN Client](./../../images/vpn-aws-client.png)
-
-## VPN Certificates Creation
+## VPN Certificates
 
 #### EasyRSA setup
 
@@ -58,7 +60,7 @@
   ./easyrsa build-ca nopass
   ```
 
-  - This generates the CA private key and root certificate.
+  - This generates the CA private key and root certificate
   - Files created:
     - `pki/ca.crt` — Root CA certificate
     - `pki/private/ca.key` — Root CA private key (unencrypted)
@@ -69,53 +71,115 @@
   ./easyrsa build-server-full server nopass
   ```
 
-  - This signs the server certificate using the root CA.
+  - This signs the server certificate using the root CA
   - Files created:
     - `pki/issued/server.crt` — Server certificate
     - `pki/private/server.key` — Server private key (unencrypted)
 
-#### Generate the Client Certificate (for VPN client)
+#### Prepare Files for AWS ACM Import (Server Side)
+
+  - `server_certificate_arn`
+    - `server.crt` — Certificate
+    - `server.key` — Private key (must be unencrypted)
+    - `ca.crt` — Certificate chain (root CA)
+      ```
+      aws acm import-certificate \
+        --certificate fileb://pki/issued/server.crt \
+        --private-key fileb://pki/private/server.key \
+        --certificate-chain fileb://pki/ca.crt \
+        --region <aws-region>
+      ```
+
+  - `root_certificate_chain_arn`
+    - `ca.crt` — Certificate chain (root CA)
+    - `private/ca.key` — dummy key to pass acm import
+      ```
+      aws acm import-certificate \
+        --certificate fileb://pki/ca.crt \
+        --private-key fileb://pki/private/ca.key \
+        --region <aws-region>
+      ```
+
+#### Client Certificate (for VPN client)
 
   ```
   ./easyrsa build-client-full client1 nopass
   ```
 
-  - This signs the client certificate using the same CA.
+  - This signs the client certificate using the same CA
   - Files created:
     - `pki/issued/client1.crt` — Client certificate
     - `pki/private/client1.key` — Client private key (unencrypted)
+  - Provide `client1.crt`, `client1.key`, and `ca.crt` to users in `.ovpn` configuration
 
-#### Prepare Files for AWS ACM Import (Server Side)
+<hr>
 
-  - Prepare these 3 files for AWS ACM import
-    - `server.crt` — Certificate
-    - `server.key` — Private key (must be unencrypted)
-    - `ca.crt` — Certificate chain (root CA)
-    - Use output ARN for `server_certificate_arn`
+## OpenVPN client
 
-  ```
-  aws acm import-certificate \
-    --certificate fileb://pki/issued/server.crt \
-    --private-key fileb://pki/private/server.key \
-    --certificate-chain fileb://pki/ca.crt \
-    --region <aws-region>
-  ```
+#### Installation
 
-  - Prepare these 2 files for AWS ACM import
-    - `ca.crt` — Certificate chain (root CA)
-    - `private/ca.key` — dummy key to pass acm import
-    - Use output ARN for `root_certificate_chain_arn`
+  - Mac OS
+    - Tunnelblick (Free, GUI-based)
+      - Download from the official website: https://tunnelblick.net/downloads.html
+      - Open the `.dmg` and move Tunnelblick to the Applications folder
+      - Launch Tunnelblick and approve any permission prompts (may need admin access)
+    - CLI-based
+      ```
+      brew install openvpn
+      ```
 
-  ```
-  aws acm import-certificate \
-    --certificate fileb://pki/ca.crt \
-    --private-key fileb://pki/private/ca.key \
-    --region <aws-region>
-  ```
+  - Linux (`Ubuntu/Debian`)
+    ```
+    sudo apt update
+    sudo apt install openvpn -y
+    ```
 
-#### Use the Certificates in AWS Client VPN
+  - Linux (`RHEL/CentOS/AlmaLinux`)
+    ```
+    sudo yum install epel-release -y
+    sudo yum install openvpn -y
+    ```
 
-  - In Terraform or AWS Console:
-    - Set `server_certificate_arn` to the ACM certificate ARN returned above.
-    - Set `root_certificate_chain_arn` to the same `ca.crt` uploaded or to a separately uploaded CA certificate if needed.
-    - Provide `client1.crt`, `client1.key`, and `ca.crt` to users in `.ovpn` configuration.
+  - Configuration
+    - Place `client.crt`, `client.key`, `ca.crt` in same directory and create `client.ovpn` file
+    - Connect
+      ```
+      cd ~/vpn
+      sudo openvpn --config client.ovpn
+      ```
+    - Sample `client.ovpn` file
+      ```
+      client
+      dev tun
+      proto udp
+      remote vpn.example.com 1194
+      resolv-retry infinite
+      nobind
+      persist-key
+      persist-tun
+      remote-cert-tls server
+
+      ca ca.crt
+      cert client.crt
+      key client.key
+
+      cipher AES-256-CBC
+      auth SHA256
+      comp-lzo
+      verb 3
+      ```
+    - Store `.crt`, `.key`, and `.ovpn` files securely (never commit to Git!)
+    - Restrict file permissions:
+      ```
+      chmod 600 *.crt *.key *.ovpn
+      ```
+
+  - Windows
+    - Official site: https://openvpn.net/community-downloads/
+    - Download and install the Windows Installer version
+    - Navigate to:
+      ```
+      C:\Program Files\OpenVPN\config\
+      ```
+    - Place `client.crt`, `client.key`, `ca.crt` in same directory and create `client.ovpn` file
+
