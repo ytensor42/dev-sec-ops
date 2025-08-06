@@ -28,10 +28,16 @@ infra:
         <<: *aws_common
         tfstate_key: terraform-state/vgw/tfstate
         vpc_name: default
-        ip_address: "73.93.186.146"
-        cidr_block: "172.16.0.0/16"
+        remote_ip_address: "73.93.186.146"
+        remote_cidr_block: "172.18.0.0/16"
         vgw_secrets_name: vgw_secrets
       tgw:
         <<: *aws_common
         tfstate_key: terraform-state/tgw/tfstate
         vpc_name: default
+        remote_ip_address: "73.93.186.146"
+        remote_cidr_block: "172.18.0.0/16"
+        tgw_secrets_name: tgw_secrets
+    ec2:
+      <<: *aws_common
+

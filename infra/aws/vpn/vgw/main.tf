@@ -12,8 +12,8 @@ provider "aws" {
 
 #############################################################
 variable "vpc_name" { default = "<vpc_name>" }
-variable "ip_address" { default = "<ip_address>" }
-variable "cidr_block" { default = "<cidr_block>" }
+variable "remote_ip_address" { default = "<remote_ip_address>" }
+variable "remote_cidr_block" { default = "<remote_cidr_block>" }
 variable "vgw_secrets_name" { default = "<vgw_secrets_name>" }
 
 module "vpc" {
@@ -38,7 +38,7 @@ resource "aws_vpn_gateway" "vgw" {
 
 resource "aws_customer_gateway" "cgw" {
   bgp_asn    = 65000
-  ip_address = var.ip_address
+  ip_address = var.remote_ip_address
   type       = "ipsec.1"
   tags = {
     Name = "customer-vpn-gateway"
@@ -66,16 +66,14 @@ resource "aws_vpn_connection" "vpn" {
   }
 }
 
-resource "aws_vpn_connection_route" "route" {
-  vpn_connection_id      = aws_vpn_connection.vpn.id
-  destination_cidr_block = module.vpc.cidr_block
-}
+#resource "aws_vpn_connection_route" "route" {    # only needed when `static_routes_only = true`
+#  vpn_connection_id      = aws_vpn_connection.vpn.id
+#  destination_cidr_block = module.vpc.cidr_block
+#}
 
-resource "aws_route_table" "private_rt" {
-  vpc_id = module.vpc.vpc_id
-
-  route {
-    cidr_block = var.cidr_block
-    gateway_id = aws_vpn_gateway.vgw.id
-  }
+resource "aws_route" "to_vpn" {
+  for_each               = toset(module.vpc.private_rt_ids)
+  route_table_id         = each.key
+  destination_cidr_block = var.remote_cidr_block
+  gateway_id             = aws_vpn_gateway.vgw.id
 }

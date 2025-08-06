@@ -46,7 +46,7 @@
 
     resource "aws_customer_gateway" "cgw" {
       bgp_asn    = 65000
-      ip_address = "x.x.x.x"
+      ip_address = "a.a.a.a"
       type       = "ipsec.1"
     }
 
@@ -57,24 +57,51 @@
       static_routes_only  = true
     }
 
-    resource "aws_ec2_transit_gateway_vpc_attachment" "attachment" {
-      subnet_ids         = var.vpc_subnet_ids
+    resource "aws_ec2_transit_gateway_vpc_attachment" "vpc" {
       transit_gateway_id = aws_ec2_transit_gateway.main.id
       vpc_id             = var.vpc_id
+      subnet_ids         = var.vpc_subnet_ids
     }
 
-    resource "aws_ec2_transit_gateway_route_table" "rt" {
+    resource "aws_ec2_transit_gateway_route_table" "main" {
       transit_gateway_id = aws_ec2_transit_gateway.main.id
     }
 
-    resource "aws_ec2_transit_gateway_route" "tgw_route" {
-      destination_cidr_block         = "y.y.y.y/y"
-      transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.rt.id
-      transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.attachment.id
+    # Incoming VPN traffic to refer route table @ TGW 
+    resource "aws_ec2_transit_gateway_route_table_association" "vpn_assoc" {
+      transit_gateway_attachment_id = aws_vpn_connection.vpn.transit_gateway_attachment_id
+      transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.main.id
     }
 
+    # Incoming VPC traffic to refer route table @ TGW
+    resource "aws_ec2_transit_gateway_route_table_association" "vpc_assoc" {
+      transit_gateway_attachment_id = aws_ec2_transit_gateway_vpc_attachment.vpc.id
+      transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.main.id
+    }
+
+    # For dynamic routing, BGP
+    resource "aws_ec2_transit_gateway_route_table_propagation" "vpn_propagation" {
+      transit_gateway_attachment_id  = aws_vpn_connection.vpn.transit_gateway_attachment_id
+      transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.main.id
+    }
+
+    # From VPN to VPC
+    resource "aws_ec2_transit_gateway_route" "vpc_route" {
+      destination_cidr_block         = "x.x.x.x/x"        # vpc cidr
+      transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.main.id
+      transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.vpc.id
+    }
+
+    # From VPC to VPN
+    resource "aws_ec2_transit_gateway_route" "vpn_route" {
+      destination_cidr_block         = "y.y.y.y/y"        # remote cidr
+      transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.main.id
+      transit_gateway_attachment_id  = aws_vpn_connection.vpn.transit_gateway_attachment_id
+    }
+
+    # VPC internal to TGW
     resource "aws_route" "vpc_to_tgw" {
       route_table_id         = aws_route_table.private.id
-      destination_cidr_block = "y.y.y.y/y"
+      destination_cidr_block = "y.y.y.y/y"                # remote cidr
       transit_gateway_id     = aws_ec2_transit_gateway.main.id
     }
