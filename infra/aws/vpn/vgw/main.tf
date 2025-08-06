@@ -53,7 +53,7 @@ resource "aws_vpn_connection" "vpn" {
   vpn_gateway_id      = aws_vpn_gateway.vgw.id
   customer_gateway_id = aws_customer_gateway.cgw.id
   type                = "ipsec.1"
-  static_routes_only  = false     # dynamic routing, BGP
+  static_routes_only  = false                               # dynamic routing, BGP
 
   tunnel1_preshared_key = local.vgw_secret["tunnel1_preshared_key"]
   tunnel1_inside_cidr   = local.vgw_secret["tunnel1_inside_cidr"]
@@ -66,14 +66,15 @@ resource "aws_vpn_connection" "vpn" {
   }
 }
 
-#resource "aws_vpn_connection_route" "route" {    # only needed when `static_routes_only = true`
+#resource "aws_vpn_connection_route" "to_vpc" {             # only needed when `static_routes_only = true`
 #  vpn_connection_id      = aws_vpn_connection.vpn.id
 #  destination_cidr_block = module.vpc.cidr_block
 #}
 
-resource "aws_route" "to_vpn" {
+resource "aws_route" "to_remote" {
   for_each               = toset(module.vpc.private_rt_ids)
   route_table_id         = each.key
   destination_cidr_block = var.remote_cidr_block
   gateway_id             = aws_vpn_gateway.vgw.id
 }
+
