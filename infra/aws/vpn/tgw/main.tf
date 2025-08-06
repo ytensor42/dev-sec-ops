@@ -11,13 +11,16 @@ provider "aws" {
 }
 
 #############################################################
+variable "vpc_name" { default = "<vpc_name>" }
+variable "ip_address" { default = "<ip_address>" }
+
 variable "vpc1_id" { default = "<vpc1_id>" }
 variable "vpc2_id" { default = "<vpc2_id>" }
 variable "vpc1_subnet_ids" { default = "<vpc1_subnet_ids>" }
 variable "vpc2_subnet_ids" { default = "<vpc2_subnet_ids>" }
 variable "vpc1_destination_cidr_block" { default = "<vpc1_destination_cidr_block>" }
 variable "vpc2_destination_cidr_block" { default = "<vpc2_destination_cidr_block>" }
-
+variable "ip_address" { default = "<ip_address>" }
 
 resource "aws_ec2_transit_gateway" "main" {
   description = "main"
@@ -25,7 +28,7 @@ resource "aws_ec2_transit_gateway" "main" {
 
 resource "aws_customer_gateway" "cgw" {
   bgp_asn    = 65000
-  ip_address = "<customer_gw_ip>"    # customer gateway ip
+  ip_address = var.ip_address   # customer gateway ip
   type       = "ipsec.1"
 }
 
