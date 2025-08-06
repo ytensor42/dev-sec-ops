@@ -116,70 +116,64 @@
 
 ## OpenVPN client
 
-#### Installation
+#### MacOS
+- Tunnelblick (Free, GUI-based)
+  - Download from the official website: https://tunnelblick.net/downloads.html
+  - Open the `.dmg` and move Tunnelblick to the Applications folder
+  - Launch Tunnelblick and approve any permission prompts (may need admin access)
+- CLI-based
+  ```
+  brew install openvpn
+  ```
 
-  - Mac OS
-    - Tunnelblick (Free, GUI-based)
-      - Download from the official website: https://tunnelblick.net/downloads.html
-      - Open the `.dmg` and move Tunnelblick to the Applications folder
-      - Launch Tunnelblick and approve any permission prompts (may need admin access)
-    - CLI-based
-      ```
-      brew install openvpn
-      ```
+#### Ubuntu / Debian
+  ```
+  sudo apt update
+  sudo apt install openvpn -y
+  ```
 
-  - Linux (`Ubuntu/Debian`)
+#### RHEL / CentOS / AlmaLinux
+  ```
+  sudo yum install epel-release -y
+  sudo yum install openvpn -y
+  ```
+
+#### Windows
+- Official site: https://openvpn.net/community-downloads/
+- Download and install the Windows Installer version
+
+#### Configuration
+- Place `client.crt`, `client.key`, `ca.crt` in same directory and create `client.ovpn` file
+  - Windows : `C:\Program Files\OpenVPN\config\`
+  - Store files securely (never commit to Git!)
+  - Restrict file permissions:
     ```
-    sudo apt update
-    sudo apt install openvpn -y
+    chmod 600 *.crt *.key *.ovpn
     ```
+- Connect
+  ```
+  cd <vpn-config-folder>
+  sudo openvpn --config client.ovpn
+  ```
+- Sample `client.ovpn` file (*configure `remote` and other parameters properly*)
+  ```
+  client
+  dev tun
+  proto udp
+  remote vpn.example.com 1194
+  resolv-retry infinite
+  nobind
+  persist-key
+  persist-tun
+  remote-cert-tls server
 
-  - Linux (`RHEL/CentOS/AlmaLinux`)
-    ```
-    sudo yum install epel-release -y
-    sudo yum install openvpn -y
-    ```
+  ca ca.crt
+  cert client.crt
+  key client.key
 
-  - Configuration
-    - Place `client.crt`, `client.key`, `ca.crt` in same directory and create `client.ovpn` file
-    - Connect
-      ```
-      cd ~/vpn
-      sudo openvpn --config client.ovpn
-      ```
-    - Sample `client.ovpn` file
-      ```
-      client
-      dev tun
-      proto udp
-      remote vpn.example.com 1194
-      resolv-retry infinite
-      nobind
-      persist-key
-      persist-tun
-      remote-cert-tls server
-
-      ca ca.crt
-      cert client.crt
-      key client.key
-
-      cipher AES-256-CBC
-      auth SHA256
-      comp-lzo
-      verb 3
-      ```
-    - Store `.crt`, `.key`, and `.ovpn` files securely (never commit to Git!)
-    - Restrict file permissions:
-      ```
-      chmod 600 *.crt *.key *.ovpn
-      ```
-
-  - Windows
-    - Official site: https://openvpn.net/community-downloads/
-    - Download and install the Windows Installer version
-    - Navigate to:
-      ```
-      C:\Program Files\OpenVPN\config\
-      ```
-    - Place `client.crt`, `client.key`, `ca.crt` in same directory and create `client.ovpn` file
+  cipher AES-256-CBC
+  auth SHA256
+  comp-lzo
+  verb 3
+  ```
 
