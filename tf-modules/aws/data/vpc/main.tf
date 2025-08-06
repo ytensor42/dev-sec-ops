@@ -3,7 +3,7 @@ variable "vpc_name" {
   default = "default"
 }
 
-data "aws_vpc" "default" {
+data "aws_vpc" "vpc" {
   tags = { 
     Name = var.vpc_name
   }
@@ -12,7 +12,7 @@ data "aws_vpc" "default" {
 data "aws_subnets" "subnets" {
   filter {
     name = "vpc-id"
-    values = [data.aws_vpc.default.id]
+    values = [data.aws_vpc.vpc.id]
   }
 }
 
@@ -22,7 +22,7 @@ data "aws_subnet" "subnets" {
 }
 
 data "aws_route_tables" "public_rt" {
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = data.aws_vpc.vpc.id
   filter {
     name   = "tag:Name"
     values = ["${var.vpc_name}-rtb-public"]
@@ -30,7 +30,7 @@ data "aws_route_tables" "public_rt" {
 }
 
 data "aws_route_tables" "private_rt" {
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = data.aws_vpc.vpc.id
   filter {
     name   = "tag:Name"
     values = ["${var.vpc_name}-rtb-private*"]
@@ -38,11 +38,11 @@ data "aws_route_tables" "private_rt" {
 }
 
 output "vpc_id" {
-  value = data.aws_vpc.default.id
+  value = data.aws_vpc.vpc.id
 }
 
 output "cidr_block" {
-  value = data.aws_vpc.cidr_block
+  value = data.aws_vpc.vpc.cidr_block
 }
 
 output "subnet_ids" {
