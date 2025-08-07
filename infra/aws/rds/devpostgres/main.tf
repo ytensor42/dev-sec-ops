@@ -22,7 +22,7 @@ module "vpc" {
 }
 
 data "aws_route53_zone" "zone" {
-  name = "aws.ansolute.com"
+  name = "demo.aws.ansolute.com"
 }
 
 ## RDS

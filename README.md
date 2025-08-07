@@ -1,6 +1,6 @@
 # Dev-Sec-Ops Examples
 
-### Infrastructure as Code [![Terraform](https://github.com/ytensor42/dev-sec-ops/actions/workflows/terraform.yaml/badge.svg?branch=main)](https://github.com/ytensor42/dev-sec-ops/actions/workflows/terraform.yaml)
+## Infrastructure as Code [![Terraform](https://github.com/ytensor42/dev-sec-ops/actions/workflows/terraform.yaml/badge.svg?branch=main)](https://github.com/ytensor42/dev-sec-ops/actions/workflows/terraform.yaml)
 
 - [Terraform modules](./tf-modules/README.md)
     - github based module sources
@@ -8,29 +8,24 @@
 ### AWS
 
 - [Base infrastructure](./infra/aws/base/README.md)
-    - `default` VPC
-        - Single VPC with public and private subnets on 2 availability zones
-    - NAT Gateway
-        - Adding NAT Gateway(s) for `default` VPC
-    - SSM / ECR VPC Endpoints
-        - Adding SSM/ECR VPC Endpoints (`interface` type)
+    - [`default` VPC](./infra/aws/base/README.md#default-vpc)
+    - [NAT Gateway](./infra/aws/base/README.md#nat-gateway)
+    - [SSM](./infra/aws/base/README.md#ssm-vpc-endpoint) / [ECR](./infra/aws/base/README.md#ecr-vpc-endpoint) VPC Endpoints
 
 - [VPN](./infra/aws/vpn/README.md)
-    - [AWS Client VPN](./infra/aws/vpn/awsclientvpn/README.md)
-        - Open VPN client to single VPC
-    - [Site-to-Site with VPN Gateway](./infra/aws/vpn/vgw/README.md)
-        - Single VPC to on-prem, AWS VPC, GCP, Azure
-        - BGP, PSK
-    - [Site-to-Hub with Transit Gateway](./infra/aws/vpn/tgw/README.md)
-        - Multi VPCs to on-prem, AWS VPC, GCP, Azure
-        - BGP, PSK
+    - [AWS Client VPN](./infra/aws/vpn/README.md#aws-client-vpn)
+    - [Site-to-Site with VPN Gateway](./infra/aws/vpn/README.md#aws-vpn-using-virtual-private-gateway)
+    - [Site-to-Hub with Transit Gateway](./infra/aws/vpn/README.md#aws-vpn-using-transit-gateway)
 
 - [EC2](./infra/aws/ec2/README.md)
-    - Private subnet
-    - SSM enabled and only be accessible through SSM agent
+    - [`test` instance](./infra/aws/ec2/README.md#test-instance)
+    - [`dev` instance](./infra/aws/ec2/README.md#dev-instance)
+
+- [ECS](./infra/aws/ecs/README.md)
+    - [`test` instance](./infra/aws/ecs/README.md#)
 
 - [RDS](./infra/aws/rds/README.md)
-    - Simple RDS provisioner
+    - [`devpostgres` instance](./infra/aws/rds/README.md#devpostgres-instance)
 
 <!---
 - [VPC Peering]()
