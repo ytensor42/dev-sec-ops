@@ -32,6 +32,7 @@
 
     ![base infrastructure](../images/base-infra-default2.png)
 
+---
 ## NAT Gateway
 
 - Adding NAT Gateway for `default` VPC
