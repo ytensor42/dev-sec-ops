@@ -6,7 +6,7 @@ on:
       infra:
         description: 'Infrastructure'
         type: string
-        default: 'infra/aws/base'
+        default: 'infra/aws/<>'
       command:
         description: 'Command'
         type: choice

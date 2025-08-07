@@ -1,3 +1,8 @@
+data "aws_route53_zone" "zone" {
+  name = var.zone_name
+  private_zone = true
+}
+
 resource "aws_instance" "instance" {
   ami = var.ami == null ? local.ami_dict[var.ami_type] : var.ami
   instance_type = var.instance_type
@@ -19,15 +24,10 @@ resource "aws_instance" "instance" {
   user_data = local.user_data_dict[var.user_data]
 }
 
-#data "aws_route53_zone" "domain_zone" {
-#  name = var.domain_zone["name"]
-#  private_zone = true
-#}
-
 resource "aws_route53_record" "instance" {
-  count = var.domain_zone == null ? 0:1
-  zone_id = var.domain_zone["id"]
-  name = "${var.instance_name}.${var.domain_zone["name"]}"
+  count = var.zone_name == null ? 0:1
+  zone_id = aws_route53_zone.zone.zone_id
+  name = "${var.instance_name}.${var.zone_name}"
   type = "CNAME"
   ttl = "300"
   records = [ aws_instance.instance.private_dns ]

@@ -1,4 +1,4 @@
-# Dev Sec Ops
+# Dev-Sec-Ops Examples
 
 ### Infrastructure as Code [![Terraform](https://github.com/ytensor42/dev-sec-ops/actions/workflows/terraform.yaml/badge.svg?branch=main)](https://github.com/ytensor42/dev-sec-ops/actions/workflows/terraform.yaml)
 
@@ -20,24 +20,41 @@
         - Multi VPCs to on-prem, AWS VPC, GCP, Azure
         - BGP, PSK
 
-<!---
 - [EC2 instance provisioning]()
-    - *TBD*
+    - Private subnet
+    - SSM enabled and only be accessible through SSM agent
 
+<!---
 - [RDS provisioning]()
-    - *TBD*
+    - Simple RDS (Postgres) provisioner
 
 - [VPC Peering]()
-    - *TBD*
+    - Peering `default` VPC and `backend` VPC
+    - EC2 instance in private subnet @ each VPC
+    - Route between private subnets
 
 - [ECS provisioning]()
-    - *TBD*
+    - Task, Service, ALB provisioning
+    - ECS Fargate instances in private subnets @ `default` VPC
+    - Accessing ECR
 
-- [EKS provisioning]()
-    - *TBD*
+- [EKS provisioning using `terraform`]()
+    - Private subnets @ `default` VPC
+    - Public accessible controller
 
-- [Account Peering using Transit Gateway]()
-    - *TBD*
+- [EKS provisioning using `eksctl`]()
+    - Private subnets @ `default` VPC
+    - Public accessible controller
+    - Tools installation after provisioning
+
+- [Transit Gateway between VPCs in different AWS account]()
+    - TBD
+
+- [Single VPC internet exits for multiple VPCs using Transit Gateway]()
+    - NAT GW @ `default` VPC
+    - No NAT GW @ 2 other VPCs
+    - Transit Gateway among all 3 VPCs
+    - All outgoing traffic will be routed to `default` VPC then exit to internet
 
 ### GCP
 
@@ -49,6 +66,17 @@
 
 - [Simple 3-Tier Application]()
     - *TBD*
+
+- [VM provisioning]()
+    - Private subnet
+    - iAH connection
+
+- [GKE provisioning]()
+    - Private subnet
+
+- [VPN]
+    - [Site-to-Site VPN with AWS VPC]
+        - *TBD*
 
 - [Developer-controlled Github Runner using Action Runner Controller]()
     - *TBD*

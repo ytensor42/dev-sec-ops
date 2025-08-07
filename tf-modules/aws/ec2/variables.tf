@@ -53,11 +53,8 @@ variable "instance_name" {
   default = "demo-instance"
 }
 
-variable "domain_zone" {
-  type = object({
-    id = string
-    name = string
-  })
+variable "zone_name" {
+  type = string
   default = null
 }
 

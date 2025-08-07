@@ -1,7 +1,9 @@
 # Base Infrastructure
 
-- Base infrastructure configurations
-    - Base VPC for further infrastructures
+## `default` VPC
+
+- Base VPC for further infrastructures
+    - infra: `infra/aws/base/vpc`
 
 - VPC `default`
     - 2 public subnets
@@ -29,3 +31,12 @@
 - Diagram
 
     ![base infrastructure](../images/base-infra-default2.png)
+
+## NAT Gateway
+
+- Adding NAT Gateway for `default` VPC
+    - infra: `infra/aws/base/natgw`
+
+- Single / Multiple NAT GW for private subnets
+
+- Outgoing route for each private subnet

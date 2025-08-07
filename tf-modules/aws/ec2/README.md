@@ -24,9 +24,7 @@
   |`volume_size`|int|`8`|volume size in G|
   |`volume_type`|str|`standard`|volume type|
   |`instance_name`|str|`demo-instance`|instance name|
-  |`domain_zone`|object|*`_null_`*|zone information|
-  |`domain_zone.id`|str||zone id|
-  |`domain_zone.name`|str||zone name|
+  |`zone_name`|str|_null_|private zone name|
   |`http_tokens`|str|`required`|IMDS v2|
   |`user_data`|str|`null`|userdata script|
 
