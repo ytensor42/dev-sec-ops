@@ -5,7 +5,7 @@
 ### Source
   ```
   module "domain" {
-    source = "git@github.com:ytensor42/demos.git//tf-modules/aws/domain"
+    source = "git@github.com:ytensor42/dev-sec-ops.git//tf-modules/aws/domain"
   }
   ```
 
@@ -14,7 +14,7 @@
   |name|type|default|comments|
   |---|---|---|---|
   |root_domain|str|`ansolute.com`|root domain name|
-  |sub_domain|str|`demo`|sub domain name|
+  |sub_domain|str|`aws`|sub domain name|
   |delegation|bool|`false`|delegation flag|
   |vpc_id|list(str)|`[]`|list of vpc-id|
 

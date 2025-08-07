@@ -3,7 +3,7 @@ variable "root_domain" {
 }
 
 variable "sub_domain" {
-  default = "demo"
+  default = "aws"
 }
 
 variable "delegation" {

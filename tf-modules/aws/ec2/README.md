@@ -5,7 +5,7 @@
 ### Source
   ```
   module "ec2" {
-    source = "git@github.com:ytensor42/demos.git//tf-modules/aws/ec2"
+    source = "git@github.com:ytensor42/dev-sec-ops.git//tf-modules/aws/ec2"
   }
   ```
 

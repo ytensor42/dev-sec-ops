@@ -25,14 +25,14 @@
         - Multi VPCs to on-prem, AWS VPC, GCP, Azure
         - BGP, PSK
 
-- [EC2 instances](./infra/aws/ec2/README.md)
+- [EC2](./infra/aws/ec2/README.md)
     - Private subnet
     - SSM enabled and only be accessible through SSM agent
 
-<!---
-- [RDS provisioning]()
-    - Simple RDS (Postgres) provisioner
+- [RDS](./infra/aws/rds/README.md)
+    - Simple RDS provisioner
 
+<!---
 - [VPC Peering]()
     - Peering `default` VPC and `backend` VPC
     - EC2 instance in private subnet @ each VPC

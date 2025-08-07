@@ -5,7 +5,7 @@
 ### Source
   ```
   module "instance_profile" {
-    source = "git@github.com:ytensor42/demos.git//tf-modules/aws/role/instance_profile"
+    source = "git@github.com:ytensor42/dev-sec-ops.git//tf-modules/aws/role/instance_profile"
   }
   ```
 

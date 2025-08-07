@@ -53,20 +53,29 @@ infra:
         tgw_secrets_name: tgw_secrets
     ec2:
       tester:
+        <<: *aws_common
         tfstate_key: terraform-state/ec2/tester/tfstate
-        <<: *aws_common
       develop:
-        tfstate_key: terraform-state/ec2/develop/tfstate
         <<: *aws_common
+        tfstate_key: terraform-state/ec2/develop/tfstate
+    rds:
+      devpostgres:
+        <<: *aws_common
+        tfstate_key: terraform-state/rds/devpostgres/tfstate
+#
   gcp:
-    common:
+    common: &gcp_common
+#
   azure:
-    common:
+    common: &azure_common
+#
 resource:
   common:
   eks1:
   ecs1:
+#
 mlops:
   common:
   project1:
 
+#

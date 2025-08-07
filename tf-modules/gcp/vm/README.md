@@ -5,6 +5,6 @@
 - Source
   ```
   module "domain" {
-    source = "git@github.com:ytensor42/demos.git//tf-modules/gcp/vm"
+    source = "git@github.com:ytensor42/dev-sec-ops.git//tf-modules/gcp/vm"
   }
   ```

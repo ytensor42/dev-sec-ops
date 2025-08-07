@@ -5,7 +5,7 @@
 ### Source
   ```
   module "ami" {
-    source = "git@github.com:ytensor42/demos.git//tf-modules/aws/data/ami"
+    source = "git@github.com:ytensor42/dev-sec-ops.git//tf-modules/aws/data/ami"
   }
   ```
 
@@ -33,7 +33,7 @@
 ### Source
   ```
   module "vpc" {
-    source = "git@github.com:ytensor42/demos.git//tf-modules/aws/data/vpc"
+    source = "git@github.com:ytensor42/dev-sec-ops.git//tf-modules/aws/data/vpc"
   }
   ```
 
