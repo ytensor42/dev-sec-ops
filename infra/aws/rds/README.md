@@ -7,13 +7,15 @@
 
 - Security Group
     - `default-sg-devpostgres`
-        - ingress open (TCP 5432) to RFC1918 addresses (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)
+        - ingress open (TCP 5432) to RFC1918 addresses (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`)
 
 - RDS instance
     - Name: `default-devpostgres`
-    - AMI: Latest Ubuntu 2404 `ubuntu-2204`
+    - Version: 17.5
+    - No public access
+    - Single AZ
     - `default` VPC private subnet
-    - Instance type: `t3.micro`
+    - Instance type: `db.t3.micro`
     - DB subnet group
         - `default` private subnets
 
@@ -49,4 +51,5 @@
     - Outputs
         |Attribute|Description|
         |---|---|
-        |`address`|db instance host address (FQDN)|
+        |`address`|db instance host address|
+        |`fqdn`|Public CNAME address|
