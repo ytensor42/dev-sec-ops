@@ -1,4 +1,4 @@
-# EC2 Infrastructures
+# EC2 Instances
 
 ## `test` Instance
 
@@ -10,7 +10,7 @@
 
 - Security Group
     - `default-sg-test`
-        - ingress TCP 22 from `default` public/private subnet CIDRs
+        - ingress TCP 22 from `default` private subnet CIDRs
 
 - EC2 instance
     - Name: `default-test`

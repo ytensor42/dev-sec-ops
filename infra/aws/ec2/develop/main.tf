@@ -27,7 +27,7 @@ resource "aws_security_group" "sg_default_dev" {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = module.vpc.subnet_cidrs
+    cidr_blocks = module.vpc.private_subnet_cidrs
   }
 
   egress {

@@ -35,7 +35,7 @@
 ---
 ## NAT Gateway
 
-- Adding NAT Gateway for `default` VPC
+- Adding NAT Gateway(s) for `default` VPC
     - infra: `infra/aws/base/natgw`
 
 - Single / Multiple NAT GW for private subnets

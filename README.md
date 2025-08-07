@@ -8,7 +8,12 @@
 ### AWS
 
 - [Base infrastructure](./infra/aws/base/README.md)
-    - Single VPC with public and private subnets on 2 availability zones
+    - `default` VPC
+        - Single VPC with public and private subnets on 2 availability zones
+    - NAT Gateway
+        - Adding NAT Gateway(s) for `default` VPC
+    - SSM / ECR VPC Endpoints
+        - Adding SSM/ECR VPC Endpoints (`interface` type)
 
 - [VPN](./infra/aws/vpn/README.md)
     - [AWS Client VPN](./infra/aws/vpn/awsclientvpn/README.md)
@@ -20,7 +25,7 @@
         - Multi VPCs to on-prem, AWS VPC, GCP, Azure
         - BGP, PSK
 
-- [EC2 instance provisioning]()
+- [EC2 instances](./infra/aws/ec2/README.md)
     - Private subnet
     - SSM enabled and only be accessible through SSM agent
 
