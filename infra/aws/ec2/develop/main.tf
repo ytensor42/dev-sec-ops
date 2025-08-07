@@ -18,14 +18,14 @@ module "vpc" {
   vpc_name = var.vpc_name
 }
 
-resource "aws_security_group" "sg_default_test" {
-  name        = "${var.vpc_name}-default-test"
-  description = "Allow traffic for default-test instance"
+resource "aws_security_group" "sg_default_dev" {
+  name        = "${var.vpc_name}-default-dev"
+  description = "Allow traffic for default-dev instance"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
-    from_port   = 22
-    to_port     = 22
+    from_port   = 5432
+    to_port     = 5432
     protocol    = "tcp"
     cidr_blocks = module.vpc.subnet_cidrs
   }
@@ -38,21 +38,21 @@ resource "aws_security_group" "sg_default_test" {
   }
 
   tags = {
-    Name = "${var.vpc_name}-sg-default-test"
+    Name = "${var.vpc_name}-sg-default-dev"
   }
 }
 
 module "instance" {
   source = "<module_base>/aws/ec2"
-  instance_name = "default-test"
-  ami_type = "ubuntu-2204"
+  instance_name = "default-dev"
+  ami = "ami-061e8bd551e848afc"
   instance_type = "t3.micro"
   key_name = "ec2_rsa"
-  iam_instance_profile = "instance-profile-ssm"
+  iam_instance_profile = "instance-profile-ssm-ecr"
   user_data = "ubuntu-default"
   aws_subnet_id = module.vpc.private_subnet_ids[0]
-  vpc_security_group_ids = [ aws_security_group.sg_default_test.id ]
-  volume_size = 8
+  vpc_security_group_ids = [ aws_security_group.sg_default_dev.id ]
+  volume_size = 20
 }
 
 output "instance" {

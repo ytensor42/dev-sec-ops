@@ -11,7 +11,7 @@ provider "aws" {
 }
 
 #############################################################
-variable "vpc_name" { default = "<vpc_name>" }
+variable "vpc_name" { default = "default" }
 
 module "vpc" {
   source = "<module_base>/aws/vpc"

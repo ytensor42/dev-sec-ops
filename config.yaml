@@ -20,11 +20,15 @@ infra:
       vpc:
         <<: *aws_common
         tfstate_key: terraform-state/default/tfstate
-        vpc_name: default
       natgw:
         <<: *aws_common
         tfstate_key: terraform-state/default/natgw/tfstate
-        vpc_name: default
+      ssm-ep:
+        <<: *aws_common
+        tfstate_key: terraform-state/default/ssm-ep/tfstate
+      ecr-ep:
+        <<: *aws_common
+        tfstate_key: terraform-state/default/ecr-ep/tfstate
     vpn:
       awsclientvpn:
         <<: *aws_common
@@ -48,7 +52,11 @@ infra:
         remote_cidr_block: "172.18.0.0/16"
         tgw_secrets_name: tgw_secrets
     ec2:
-      test:
+      tester:
+        tfstate_key: terraform-state/ec2/tester/tfstate
+        <<: *aws_common
+      develop:
+        tfstate_key: terraform-state/ec2/develop/tfstate
         <<: *aws_common
   gcp:
     common:

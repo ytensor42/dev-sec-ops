@@ -15,7 +15,7 @@
   |name|type|default|comments|
   |---|---|---|---|
   |`region`|str|`us-west-2`|region|
-  |`endpoint`|str|`ssm`|endpoint|
+  |`endpoint`|str|`ssm`|endpoint, `ssm`, `ecr`|
   |`vpc_name`|str|`dev`|vpc name|
   |`network_name`|str|`private`|`private` or `public`|
 

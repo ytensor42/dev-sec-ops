@@ -41,3 +41,22 @@
 - Single / Multiple NAT GW for private subnets
 
 - Outgoing route for each private subnet
+
+---
+## SSM VPC Endpoint
+
+- Adding SSM VPC Endpoint (`interface` type)
+    - infra: `infra/aws/base/ssm-ep`
+- Service names
+    - com.amazonaws.<var.region>.ssm
+    - com.amazonaws.<var.region>.ssmmessages
+    - com.amazonaws.<var.region>.ec2messages
+
+---
+## ECR VPC Endpoint
+
+- Adding ECR VPC Endpoint (`interface` type)
+    - infra: `infra/aws/base/ecr-ep`
+- Service names
+    - com.amazonaws.<var.region>.ecr.api
+    - com.amazonaws.<var.region>.ecr.dkr
