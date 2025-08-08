@@ -15,7 +15,7 @@
   |name|type|default|comments|
   |---|---|---|---|
   |`region`|str|`us-west-2`|region|
-  |`endpoint`|str|`ssm`|endpoint, `ssm`, `ecr`|
+  |`endpoint`|str|`ssm`|endpoint, `ssm`, `ecr`, `sm`|
   |`vpc_name`|str|`dev`|vpc name|
   |`network_name`|str|`private`|`private` or `public`|
 
@@ -27,6 +27,7 @@
   |`network_cidrs`|list|`[.<dynamic>.]`|network CIDRs|
   |`endpoints.ssm`|list|`["ssm", "ssmmessages", "ec2messages"]`|ssm endpoints|
   |`endpoints.ecr`|list|`[ "ecr.api", "ecr.dkr" ]`|ecr endpoints|
+  |`endpoints.sm`|list|`[ "secretsmanager" ]`|sm endpoints|
 
 
 ### Outputs

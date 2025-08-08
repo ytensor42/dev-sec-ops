@@ -58,6 +58,10 @@ infra:
       develop:
         <<: *aws_common
         tfstate_key: terraform-state/ec2/develop/tfstate
+    ecs:
+      python-webapp1:
+        <<: *aws_common
+        tfstate_key: terraform-state/ecs/python-webapp1/tfstate
     rds:
       devpostgres:
         <<: *aws_common

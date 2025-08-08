@@ -1,4 +1,7 @@
-# ECS configuration
+# ECS
+
+## `python-webapp` Service
+
 - IAM role
     - Name: webapp-ecsTaskExecutionRole
         - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
@@ -19,8 +22,9 @@
     - Listener: http
         - port 80
 
-## Screenshots
+### Screenshots
 - `/`
-    ![`/`](./alb-root.png)
+    ![`/`]()
 - `/version`
-    ![`/version`](./alb-version.png)
+    ![`/version`]()
+---

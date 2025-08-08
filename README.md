@@ -22,7 +22,7 @@
     - [`dev` instance](./infra/aws/ec2/README.md#dev-instance)
 
 - [ECS](./infra/aws/ecs/README.md)
-    - [`test` instance](./infra/aws/ecs/README.md#)
+    - [`python-webapp1` service](./infra/aws/ecs/README.md#python-webapp-service)
 
 - [RDS](./infra/aws/rds/README.md)
     - [`devpostgres` instance](./infra/aws/rds/README.md#devpostgres-instance)

@@ -45,6 +45,7 @@ locals {
   endpoints = {
     "ssm" = [ "ssm", "ssmmessages", "ec2messages" ]
     "ecr" = [ "ecr.api", "ecr.dkr" ]
+    "sm"  = [ "secretsmanager" ]
   }
 }
 

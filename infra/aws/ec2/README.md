@@ -22,7 +22,7 @@
 ---
 ## `dev` Instance
 
-- `dev` instance for test webapp
+- `dev` instance for development
     - infra: `infra/aws/ec2/develop`
 
 - SSM VPC Endpoint
