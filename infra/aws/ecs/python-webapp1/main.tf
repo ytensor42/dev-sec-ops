@@ -137,6 +137,7 @@ module "ecs" {
 # outputs
 
 output "container" {
+  sensitive = true
   value = local.secret
 }
 

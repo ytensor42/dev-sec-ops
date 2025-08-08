@@ -4,14 +4,15 @@
 
 |Folder|Contents|
 |---|---|
-|`aws/domain`|[AWS domain module](aws/domain/README.md)|
-|`aws/ec2`|[AWS EC2 module](aws/ec2/README.md)|
-|`aws/role/instance_profile`|[AWS Role / instance profile module](aws/role/README.md#awsroleinstance_profile-module)|
-|`aws/vpc`|[AWS VPC module](aws/vpc/README.md)|
-|`aws/vpce/interface`|[AWS VPC Endpoint - interface type](aws/vpce/README.md#awsvpceinterface-module)|
-|`aws/data/ami`|[AWS AMI data module](aws/data/README.md#awsdataami-module)|
-|`aws/data/vpc`|[AWS VPC data module](aws/data/README.md#awsdatavpc-module)|
-|`gcp/vm`|[GCP VM module](gcp/vm/README.md)|
+|`aws/domain`|[AWS domain module](./aws/domain/README.md)|
+|`aws/ec2`|[AWS EC2 module](./aws/ec2/README.md)|
+|`aws/ecs`|[AWS ECS module](./aws/ecs/README.md)|
+|`aws/role/instance_profile`|[AWS Role / instance profile module](./aws/role/README.md#awsroleinstance_profile-module)|
+|`aws/vpc`|[AWS VPC module](./aws/vpc/README.md)|
+|`aws/vpce/interface`|[AWS VPC Endpoint - interface type](./aws/vpce/README.md#awsvpceinterface-module)|
+|`aws/data/ami`|[AWS AMI data module](./aws/data/README.md#awsdataami-module)|
+|`aws/data/vpc`|[AWS VPC data module](./aws/data/README.md#awsdatavpc-module)|
+|`gcp/vm`|[GCP VM module](./gcp/vm/README.md)|
 |`azure/`|Azure module base (_TBD_)|
 
 ## TFState
