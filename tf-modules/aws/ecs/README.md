@@ -25,8 +25,6 @@
   |`container`|obj|_null_|Container definition|
   |`container_port`|number|`5000`|Container port|
   |`certificate_arn`|str|_null_|https certificate ARN for APP FQDN|
-  |`public_subnet_ids`|list|_null|Public subnet IDs|
-  |`private_subnet_ids`|list|_null|Private subnet IDs|
   |`service_sg_ids`|list|_null_|Security groups for service|
   |`alb_sg_ids`|list|_null_|Security groups for ALB|
 

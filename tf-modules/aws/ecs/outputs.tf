@@ -3,6 +3,6 @@ output "alb_dns_name" {
 }
 
 output "service_url" {
-  value = "https://${var.app_name}.${aws_route53_zone.zone.name}"
-  depends_on = [aws_route53_zone.zone]
+  value = "https://${var.app_name}.${data.aws_route53_zone.zone.name}"
+  depends_on = [data.aws_route53_zone.zone]
 }
