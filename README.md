@@ -16,6 +16,8 @@
     - [AWS Client VPN](./infra/aws/vpn/README.md#aws-client-vpn)
     - [Site-to-Site with VPN Gateway](./infra/aws/vpn/README.md#aws-vpn-using-virtual-private-gateway)
     - [Site-to-Hub with Transit Gateway](./infra/aws/vpn/README.md#aws-vpn-using-transit-gateway)
+    - [Site-to-Site VPN between AWS VPC and GCP VPC]
+        - *TBD*
 
 - [EC2](./infra/aws/ec2/README.md)
     - [`test` instance](./infra/aws/ec2/README.md#test-instance)
@@ -60,29 +62,27 @@
 
 - [VM](./infra/gcp/vm/README.md)
         - _TBD_
+        - Private subnet
+        - iAH connection
 
 - [GKE](./infra/gcp/vm/README.md)
         - _TBD_
+        - Private subnet
 
 ---
 ### CI/CD
 
-- [Simple 3-Tier Application]()
-    - *TBD*
+- [Web Application / ALB + ECS + RDS @ Peered VPC]()
+    - _TBD_
 
-- [VM provisioning]()
-    - Private subnet
-    - iAH connection
+- [3 Tier Web Application / ALB + EKS + API + RDS]()
+    - _TBD_
 
-- [GKE provisioning]()
-    - Private subnet
-
-- [VPN]
-    - [Site-to-Site VPN with AWS VPC]
-        - *TBD*
+- [Web Application 2 / ArgoCD on EKS]()
+    - _TBD_
 
 - [Developer-controlled Github Runner using Action Runner Controller]()
-    - *TBD*
+    - _TBD_
 
 ---
 ### Security
