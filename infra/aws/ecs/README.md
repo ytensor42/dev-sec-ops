@@ -1,6 +1,6 @@
 # ECS
 
-## `python-webapp` Service
+## `python-webapp1` Service
 
 - Prerequisite
     - ECR VPC Endpoint
