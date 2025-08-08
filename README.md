@@ -27,30 +27,28 @@
 - [RDS](./infra/aws/rds/README.md)
     - [`devpostgres` instance](./infra/aws/rds/README.md#devpostgres-instance)
 
-<!---
 - [VPC Peering]()
+    - _TBD_
     - Peering `default` VPC and `backend` VPC
     - EC2 instance in private subnet @ each VPC
     - Route between private subnets
 
-- [ECS provisioning]()
-    - Task, Service, ALB provisioning
-    - ECS Fargate instances in private subnets @ `default` VPC
-    - Accessing ECR
-
 - [EKS provisioning using `terraform`]()
+    - _TBD_
     - Private subnets @ `default` VPC
     - Public accessible controller
 
 - [EKS provisioning using `eksctl`]()
+    - _TBD_
     - Private subnets @ `default` VPC
     - Public accessible controller
     - Tools installation after provisioning
 
 - [Transit Gateway between VPCs in different AWS account]()
-    - TBD
+    - _TBD_
 
 - [Single VPC internet exits for multiple VPCs using Transit Gateway]()
+    - _TBD_
     - NAT GW @ `default` VPC
     - No NAT GW @ 2 other VPCs
     - Transit Gateway among all 3 VPCs
@@ -58,6 +56,7 @@
 
 ### GCP
 
+<!---
 - [Base infrastructure]()
     - Single VPC with public and private subnets on 2 availability zones
 
@@ -80,18 +79,20 @@
 
 - [Developer-controlled Github Runner using Action Runner Controller]()
     - *TBD*
-
+-->
 ### Security
 
 - [Accessing Resource on Private Subnet using AWS SSM]()
+    - _TBD_
     - No public IP address
     - No VPN
     - Direct ssh access to instance
     - Accessing backend resource using port-forwarding on private instance
 - [Accessing Resource on Private Subnet using Kubernetes control plane]()
-    - *TBD*
+    - _TBD_
 
 ## MLOps
 
 - Deploy model from Huggingface
--->
+    - _TBD_
+
