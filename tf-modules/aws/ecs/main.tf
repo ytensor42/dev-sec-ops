@@ -122,8 +122,8 @@ resource "aws_lb_listener" "http" {
 }
 
 resource "aws_route53_record" "alb_dns" {
-  zone_id = aws_route53_zone.zone.zone_id
-  name    = "${var.app_name}.${aws_route53_zone.zone.name}"
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "${var.app_name}.${data.aws_route53_zone.zone.name}"
   type    = "A"
 
   alias {
