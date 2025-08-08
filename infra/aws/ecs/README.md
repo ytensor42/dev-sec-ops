@@ -1,5 +1,9 @@
 # ECS
 
+### Diagram
+![ECS](./../images/app-infra-ecs.png)
+
+---
 ## `python-webapp1` Service
 
 - Prerequisite
