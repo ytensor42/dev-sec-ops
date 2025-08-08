@@ -84,7 +84,7 @@ resource "aws_ecs_service" "app" {
 
 # ALB
 resource "aws_lb" "app" {
-  name               = "${var.vpc_name}-alb-ecs"
+  name               = "${var.vpc_name}-alb-${var.app_name}-ecs"
   internal           = false
   load_balancer_type = "application"
   security_groups    = var.alb_sg_ids
