@@ -105,8 +105,7 @@ resource "aws_security_group" "sg_service" {
     from_port   = var.container_port
     to_port     = var.container_port
     protocol    = "tcp"
-    cidr_blocks = []
-    sg = [aws_security_group.sg_alb.id]
+    security_groups = [aws_security_group.sg_alb.id]
   }
 
   egress {
@@ -124,15 +123,13 @@ resource "aws_security_group" "sg_service" {
 ## ECS fargate
 module "ecs" {
   source = "<module_base>/aws/ecs"
-  vpc_id = module.vpc.vpc_id
+  vpc_name = var.vpc_name
   app_name = var.app_name
   public_zone_name = var.public_zone_name
   cpu_architecture = "ARM64"
   container = local.container
   container_port = var.container_port
   certificate_arn = var.certificate_arn
-  public_subnet_ids = module.vpc.public_subnet_ids
-  private_subnet_ids = module.vpc.private_subnet_ids
   service_sg_ids = [aws_security_group.sg_service.id]
   alb_sg_ids = [aws_security_group.sg_alb.id]
 }

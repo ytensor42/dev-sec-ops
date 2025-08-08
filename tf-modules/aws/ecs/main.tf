@@ -1,4 +1,4 @@
-variable "vpc_id" {}
+variable "vpc_name" {}
 variable "app_name" {}
 variable "public_zone_name" {}
 variable "cpu" { default = "1024" }
@@ -7,10 +7,13 @@ variable "cpu_architecture" { default = "X86_64" }    # X86_64, ARM64
 variable "container" {}
 variable "container_port" { default = 5000 }
 variable "certificate_arn" {}
-variable "public_subnet_ids" {}
-variable "private_subnet_ids" {}
 variable "service_sg_ids" {}
 variable "alb_sg_ids" {}
+
+module "vpc" {
+  source = "git@github.com:ytensor42/dev-sec-ops.git//tf-modules/aws/data/vpc"
+  vpc_name = var.vpc_name
+}
 
 data "aws_route53_zone" "zone" {
   name = var.public_zone_name
@@ -65,7 +68,7 @@ resource "aws_ecs_service" "app" {
   desired_count   = 1
 
   network_configuration {
-    subnets          = var.private_subnet_ids
+    subnets          = module.vpc.private_subnet_ids
     assign_public_ip = false
     security_groups  = var.service_sg_ids
   }
@@ -85,7 +88,7 @@ resource "aws_lb" "app" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = var.alb_sg_ids
-  subnets            = var.public_subnet_ids
+  subnets            = module.vpc.public_subnet_ids
 }
 
 resource "aws_lb_target_group" "tg" {
@@ -93,7 +96,7 @@ resource "aws_lb_target_group" "tg" {
   port        = var.container_port
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = var.vpc_id
+  vpc_id      = module.vpc.vpc_id
   health_check {
     path                = "/"
     protocol            = "HTTP"
