@@ -55,7 +55,14 @@
     - All outgoing traffic will be routed to `default` VPC then exit to internet
 
 ### GCP
-    - _TBD_
+- [Base infrastructure](./infra/gcp/base/README.md)
+        - _TBD_
+
+- [VM](./infra/gcp/vm/README.md)
+        - _TBD_
+
+- [GKE](./infra/gcp/vm/README.md)
+        - _TBD_
 
 ---
 ### CI/CD
