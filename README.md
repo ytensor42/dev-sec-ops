@@ -55,10 +55,7 @@
     - All outgoing traffic will be routed to `default` VPC then exit to internet
 
 ### GCP
-
-<!---
-- [Base infrastructure]()
-    - Single VPC with public and private subnets on 2 availability zones
+    - _TBD_
 
 ---
 ### CI/CD
@@ -79,7 +76,8 @@
 
 - [Developer-controlled Github Runner using Action Runner Controller]()
     - *TBD*
--->
+
+---
 ### Security
 
 - [Accessing Resource on Private Subnet using AWS SSM]()
@@ -91,6 +89,7 @@
 - [Accessing Resource on Private Subnet using Kubernetes control plane]()
     - _TBD_
 
+---
 ## MLOps
 
 - Deploy model from Huggingface
