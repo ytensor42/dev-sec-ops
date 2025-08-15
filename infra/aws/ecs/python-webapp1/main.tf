@@ -61,7 +61,7 @@ locals {
       },
       {
         name = "DB_USER"
-        value = local.secret["DB_NAME"]
+        value = local.secret["DB_USER"]
       },
       {
         name = "DB_PASSWORD"

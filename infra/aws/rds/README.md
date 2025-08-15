@@ -34,10 +34,10 @@
         |`vpc_security_group_ids`|_(security group ids)_|
         |`publicly_accessible`|`false`|
         |`skip_final_snapshot`|`true`|
-        |`db_name`|`"postgres"`|
-        |`username`|`"postgres"`|
-        |`password`|`"mypasswd"`|
-        |`port`|`5432`|
+        |`db_name`|_(from secret manager)_|
+        |`username`|_(from secret manager)_|
+        |`password`|_(from secret manager)_|
+        |`port`|_(from secret manager)_|
         |`parameter_group_name`|`"default.postgres17"`|
         |`network_type`|`"IPV4"`|
         |`multi_az`|`false`|

@@ -48,9 +48,9 @@
 - Adding SSM VPC Endpoint (`interface` type)
     - infra: `infra/aws/base/ssm-ep`
 - Service names
-    - com.amazonaws.<var.region>.ssm
-    - com.amazonaws.<var.region>.ssmmessages
-    - com.amazonaws.<var.region>.ec2messages
+    - `com.amazonaws.<region>.ssm`
+    - `com.amazonaws.<region>.ssmmessages`
+    - `com.amazonaws.<region>.ec2messages`
 
 ---
 ## ECR VPC Endpoint
@@ -58,5 +58,5 @@
 - Adding ECR VPC Endpoint (`interface` type)
     - infra: `infra/aws/base/ecr-ep`
 - Service names
-    - com.amazonaws.<var.region>.ecr.api
-    - com.amazonaws.<var.region>.ecr.dkr
+    - `com.amazonaws.<region>.ecr.api`
+    - `com.amazonaws.<region>.ecr.dkr`

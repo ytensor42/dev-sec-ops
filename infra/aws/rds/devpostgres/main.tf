@@ -15,6 +15,7 @@ variable "vpc_name" { default = "default" }
 variable "rds_name" { default = "dev-postgres" }
 variable "security_group_cidrs" { default = [ "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16" ] }
 variable "security_group_ids" { default = [] }
+variable "rds_dev_secret_name" { default = "secret-test-string" }
 
 module "vpc" {
   source = "<module_base>/aws/data/vpc"
@@ -23,6 +24,23 @@ module "vpc" {
 
 data "aws_route53_zone" "zone" {
   name = "demo.aws.ansolute.com"
+}
+
+data "aws_secretsmanager_secret" "secret" {
+  name = var.rds_dev_secret_name
+}
+
+data "aws_secretsmanager_secret_version" "secret" {
+  secret_id = data.aws_secretsmanager_secret.secret.id
+}
+
+locals {
+  secret = jsondecode(data.aws_secretsmanager_secret_version.secret.secret_string)
+  #db_host = local.secret["DB_HOST"]
+  db_port = local.secret["DB_PORT"]
+  db_name = local.secret["DB_NAME"]
+  db_user = local.secret["DB_USER"]
+  db_password = local.secret["DB_PASSWORD"]
 }
 
 ## RDS
@@ -40,8 +58,8 @@ resource "aws_security_group" "sg_rds" {
   vpc_id      = module.vpc.vpc_id
 
   ingress {
-    from_port   = 5432
-    to_port     = 5432
+    from_port   = local.db_port
+    to_port     = local.db_port
     protocol    = "tcp"
     cidr_blocks = var.security_group_cidrs
     security_groups = var.security_group_ids
@@ -71,10 +89,10 @@ resource "aws_db_instance" "postgres" {
   vpc_security_group_ids  = [aws_security_group.sg_rds.id]
   publicly_accessible     = false
   skip_final_snapshot     = true
-  db_name                 = "postgres"
-  username                = "postgres"
-  password                = "mypasswd"
-  port                    = 5432
+  db_name                 = local.db_name
+  username                = local.db_user
+  password                = local.db_password
+  port                    = local.db_port
   parameter_group_name    = "default.postgres17"
   network_type            = "IPV4"
   multi_az                = false
