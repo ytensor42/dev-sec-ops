@@ -1,0 +1,19 @@
+# VPC peering configuration
+- VPC `default`
+    - Requestor
+    - 2 public subnets
+    - 2 private subnets
+    - No NAT gateway
+    - SSM VPC Endpoints
+    - Routes to private subnets @ peered VPC
+    - Security group for TCP 443 incoming from private subnets @ peered VPC
+    - test EC2 instance @ private subnet
+- VPC `backend`
+    - Acceptor
+    - 2 private subnets
+    - No NAT gateway
+    - SSM VPC Endpoints
+    - S3 VPC Endpoint
+    - Routes to private subnets @ peered VPC
+    - Security group for TCP 443 incoming from private subnets @ peered VPC
+    - test EC2 instance @ private subnet
