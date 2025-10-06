@@ -67,42 +67,39 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-  Internet((Internet)):::ext --> R53[Route 53 / DNS]:::ext
-  R53 --> ALB[(Application Load Balancer)]:::lb
+  Internet((Internet)) --> R53[Route53_DNS]
+  R53 --> ALB[(ALB)]
 
-  subgraph VPC[ VPC 172.20.0.0/16 ]
+  subgraph VPC[VPC_172.20.0.0/16]
     direction LR
 
     subgraph AZa[AZ-a]
       direction TB
-      PUBa[(Public Subnet\nALB ENI)]:::pub
-      FWa[(Firewall Subnet\nNFW Endpoint)]:::fw
-      APPa[(Private App Subnet\nTargets)]:::app
-      DATAa[(Private Data Subnet)]:::data
+      PUBa[(Public_Subnet_ALB_ENI)]
+      FWa[(Firewall_Subnet_NFW_Endpoint)]
+      APPa[(Private_App_Subnet_Targets)]
+      DATAa[(Private_Data_Subnet)]
     end
 
-    NAT[(NAT Gateway per AZ)]:::nat
-    IGW[(Internet Gateway)]:::igw
-    S3EP[(S3 VPC Endpoint - Gateway\nAttached to App Route Table)]:::s3
-    NFW[(AWS Network Firewall)]:::fwcore
+    NAT[(NAT_Gateway_per_AZ)]
+    IGW[(Internet_Gateway)]
+    NFW[(AWS_Network_Firewall)]
+    S3EP[(S3_VPC_Endpoint_Gateway_attached_to_App_RT)]
   end
 
-  %% Ingress path
-  Internet --> R53 --> ALB
-  ALB -->|HTTP/HTTPS| PUBa
-  ALB -->|Target Group| APPa
+  %% ALB in public subnet; ingress to app targets
+  ALB --- PUBa
+  ALB -->|http_https| APPa
 
-  %% App Egress via Firewall Subnet
-  APPa -->|0.0.0.0/0 (default route)| FWa
-  FWa -->|Inspection + Allow| NFW
-  NFW -->|Egress traffic| NAT --> IGW
+  %% App egress via firewall subnet and NAT to internet
+  APPa -->|default-route| FWa
+  FWa -->|inspection| NFW
+  NFW --> NAT --> IGW
 
-  %% S3 Endpoint (bypass NFW/NAT)
-  APPa -->|S3 Prefixes| S3EP
+  %% App to S3 via Gateway endpoint (bypass NFW/NAT)
+  APPa -->|s3-prefixes| S3EP
 
-  %% (optional future) ingress inspection
-  IGW -->|Ingress inspection (optional)| NFW --> FWa --> ALB
-
+  %% styling
   classDef ext fill:#f6f6ff,stroke:#6270f0,stroke-width:1.2;
   classDef pub fill:#eefaff,stroke:#3aa0d8;
   classDef app fill:#eef8ee,stroke:#4aa35a;
@@ -113,4 +110,15 @@ flowchart TB
   classDef igw fill:#fff,stroke:#888;
   classDef s3 fill:#f0fff4,stroke:#7db47d;
   classDef lb fill:#eef2ff,stroke:#6574cd,stroke-width:1.5;
+
+  class Internet,R53 ext;
+  class PUBa pub;
+  class APPa app;
+  class DATAa data;
+  class FWa fw;
+  class NFW fwcore;
+  class NAT nat;
+  class IGW igw;
+  class S3EP s3;
+  class ALB lb;
 ```
