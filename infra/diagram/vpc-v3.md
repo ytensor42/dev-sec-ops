@@ -2,6 +2,7 @@
 
 
 ### VPC
+
 ```mermaid
 flowchart LR
   Internet((Internet)) --> R53[Route 53 / DNS]
@@ -63,7 +64,8 @@ flowchart LR
 ```
 
 ### VPC with FW (in/e)gress
-```
+
+```mermaid
 flowchart TB
   Internet((Internet)):::ext --> R53[Route 53 / DNS]:::ext
   R53 --> ALB[(Application Load Balancer)]:::lb
