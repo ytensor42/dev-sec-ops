@@ -10,32 +10,32 @@ flowchart LR
 
     subgraph AZa[AZ-a]
       direction TB
-      PUBa[(Public Subnet - ALB ENI)]
-      FWa[(Firewall Subnet - NFW)]
-      APPa[(Private App Subnet - Targets)]
-      DATAa[(Private Data Subnet)]
+      PUBa[Public Subnet - ALB ENI]
+      FWa[Firewall Subnet - NFW]
+      APPa[Private App Subnet - Targets]
+      DATAa[Private Data Subnet]
     end
 
     subgraph AZb[AZ-b]
       direction TB
-      PUBb[(Public Subnet - ALB ENI)]
-      FWb[(Firewall Subnet - NFW)]
-      APPb[(Private App Subnet - Targets)]
-      DATAb[(Private Data Subnet)]
+      PUBb[Public Subnet - ALB ENI]
+      FWb[Firewall Subnet - NFW]
+      APPb[Private App Subnet - Targets]
+      DATAb[Private Data Subnet]
     end
 
     subgraph AZc[AZ-c]
       direction TB
-      PUBc[(Public Subnet - ALB ENI)]
-      FWc[(Firewall Subnet - NFW)]
-      APPc[(Private App Subnet - Targets)]
-      DATAc[(Private Data Subnet)]
+      PUBc[Public Subnet - ALB ENI]
+      FWc[Firewall Subnet - NFW]
+      APPc[Private App Subnet - Targets]
+      DATAc[Private Data Subnet]
     end
 
-    NAT[(NAT Gateway per AZ)]
-    IGW[(Internet Gateway)]
-    NFW[(AWS Network Firewall Endpoint per AZ)]
-    S3EP[(S3 VPC Endpoint - Gateway, attached to App RT)]
+    NAT[NAT Gateway per AZ]
+    IGW[Internet Gateway]
+    NFW[AWS Network Firewall Endpoint per AZ]
+    S3EP[S3 VPC Endpoint - Gateway, attached to App RT]
   end
 
   %% ALB ENIs live in Public subnets (conceptual link)
