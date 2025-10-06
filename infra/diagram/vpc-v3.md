@@ -68,23 +68,23 @@ flowchart LR
 ```mermaid
 flowchart TB
   Internet((Internet)) --> R53[Route53_DNS]
-  R53 --> ALB[(ALB)]
+  R53 --> ALB[ALB]
 
   subgraph VPC[VPC_172.20.0.0/16]
     direction LR
 
     subgraph AZa[AZ-a]
       direction TB
-      PUBa[(Public_Subnet_ALB_ENI)]
-      FWa[(Firewall_Subnet_NFW_Endpoint)]
-      APPa[(Private_App_Subnet_Targets)]
-      DATAa[(Private_Data_Subnet)]
+      PUBa[Public_Subnet_ALB_ENI]
+      FWa[Firewall_Subnet_NFW_Endpoint]
+      APPa[Private_App_Subnet_Targets]
+      DATAa[Private_Data_Subnet]
     end
 
-    NAT[(NAT_Gateway_per_AZ)]
-    IGW[(Internet_Gateway)]
-    NFW[(AWS_Network_Firewall)]
-    S3EP[(S3_VPC_Endpoint_Gateway_attached_to_App_RT)]
+    NAT[NAT_Gateway_per_AZ]
+    IGW[Internet_Gateway]
+    NFW[AWS_Network_Firewall]
+    S3EP[S3_VPC_Endpoint_Gateway_attached_to_App_RT]
   end
 
   %% ALB in public subnet; ingress to app targets
@@ -145,8 +145,8 @@ flowchart LR
 
   subgraph App_VPC [App_VPC]
     direction TB
-    ALB[(ALB)]
-    App_Subnets[(App_Subnets_Targets)]
+    ALB[ALB]
+    App_Subnets[App_Subnets_Targets]
     ALB --> App_Subnets
   end
 
