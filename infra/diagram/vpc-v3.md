@@ -3,7 +3,7 @@
 ```mermaid
 flowchart LR
   Internet((Internet)) --> R53[Route 53 / DNS]
-  R53 --> ALB[(Application Load Balancer)]
+  R53 --> ALB[Application Load Balancer]
 
   subgraph VPC[ VPC 172.20.0.0/16 ]
     direction LR
