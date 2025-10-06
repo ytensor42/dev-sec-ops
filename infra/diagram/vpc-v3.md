@@ -127,7 +127,32 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-  Internet((Internet)) --> IGW --> IngressVPC[NFW Ingress Inspection VPC] --> TGW
-  TGW --> AppVPC[App VPC (ALB, App, Data)]
-  AppVPC --> TGW --> EgressVPC[NFW Egress Inspection VPC] --> NATGW --> IGW
+  Internet((Internet)) --> IGW1[IGW]
+  IGW1 --> Ingress_VPC_NFW[Ingress_Inspection_VPC]
+  Ingress_VPC_NFW --> TGW
+  TGW --> App_VPC[App_VPC]
+  App_VPC --> TGW
+  TGW --> Egress_VPC_NFW[Egress_Inspection_VPC]
+  Egress_VPC_NFW --> NATGW[NAT_Gateway]
+  NATGW --> IGW2[IGW]
+```
+
+```mermaid
+flowchart LR
+  Internet((Internet)) --> IGW1[IGW]
+  IGW1 --> Ingress_VPC_NFW[Ingress_Inspection_VPC]
+  Ingress_VPC_NFW --> TGW
+
+  subgraph App_VPC [App_VPC]
+    direction TB
+    ALB[(ALB)]
+    App_Subnets[(App_Subnets_Targets)]
+    ALB --> App_Subnets
+  end
+
+  TGW --> App_VPC
+  App_VPC --> TGW
+  TGW --> Egress_VPC_NFW[Egress_Inspection_VPC]
+  Egress_VPC_NFW --> NATGW[NAT_Gateway]
+  NATGW --> IGW2[IGW]
 ```
