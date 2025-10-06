@@ -122,3 +122,12 @@ flowchart TB
   class S3EP s3;
   class ALB lb;
 ```
+
+### Ingress + Egress Inspection VPC
+
+```mermaid
+flowchart LR
+  Internet((Internet)) --> IGW --> IngressVPC[NFW Ingress Inspection VPC] --> TGW
+  TGW --> AppVPC[App VPC (ALB, App, Data)]
+  AppVPC --> TGW --> EgressVPC[NFW Egress Inspection VPC] --> NATGW --> IGW
+```
